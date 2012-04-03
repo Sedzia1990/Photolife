@@ -1,23 +1,24 @@
 ﻿@model Photolife.Models.LogOnModel
 
 @{
-    ViewBag.Title = "Log On";
+    ViewBag.Title = "Logowanie";
 }
 
 <h2>Log On</h2>
 <p>
-    Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
+    Podaj swoją nazwę użytkownika i hasło.
 </p>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+@Html.ValidationSummary(true, "Niestety nie udało się zalogować. Spróbuj ponownie.")
+    
 
 @using (Html.BeginForm()) {
     <div>
         <fieldset>
-            <legend>Account Information</legend>
+            <legend>Konto</legend>
 
             <div class="editor-label">
                 @Html.LabelFor(m => m.UserName)
@@ -41,8 +42,12 @@
             </div>
 
             <p>
-                <input type="submit" value="Log On" />
+                <input type="submit" value="Zaloguj" />
             </p>
+            <div><small>
+            Nie masz konta? Po prostu @Html.ActionLink("zarejestruj się!", "Register"). <br />
+            Zapomniałeś hasła? @Html.ActionLink("Resetuj hasło!", "ResetPassword")
+            </small></div>
         </fieldset>
     </div>
 }

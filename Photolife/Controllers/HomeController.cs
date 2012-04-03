@@ -8,9 +8,10 @@ namespace Photolife.Controllers
 {
     public class HomeController : Controller
     {
+        //Photolife.Models.PhotolifeEntities storeDB = new Photolife.Models.PhotolifeEntities();
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "!PHOTOBLOG!";
 
             return View();
         }
@@ -18,6 +19,12 @@ namespace Photolife.Controllers
         public ActionResult About()
         {
             return View();
+        }
+
+        [Authorize(Roles="Administrator")]
+        public string AdminPage()
+        {
+            return "Coś co powinien zobacyzć tylko i wyłącznie admin.";
         }
     }
 }
