@@ -1,8 +1,9 @@
 ﻿@if(Request.IsAuthenticated) {
-    <text>Witaj <strong>@User.Identity.Name</strong>!
+    <text>Witaj <strong>@Html.ActionLink(User.Identity.Name, "Index", "Account")</strong>!
     [ @Html.ActionLink("Wyloguj!", "LogOff", "Account") ]</text>
 }
-else {
+else
+{
     <fb:login-button perms="email,user_checkins" onlogin="afterFacebookConnect();" 
        autologoutlink="false" ></fb:login-button>
     <div id="fb-root" style="display:inline; margin-left:20px;"></div>

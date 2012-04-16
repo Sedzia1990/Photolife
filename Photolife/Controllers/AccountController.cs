@@ -16,6 +16,11 @@ namespace Photolife.Controllers
 {
     public class AccountController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult FacebookLogin(string token)
         {

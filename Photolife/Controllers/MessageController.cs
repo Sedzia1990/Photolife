@@ -19,7 +19,17 @@ namespace Photolife.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Message.ToList());
+            return View();
+        }
+
+        public ViewResult InBox()
+        {
+            return View(db.Message.Where(o => o.Odbiorca == User.Identity.Name));
+        }
+
+        public ViewResult OutBox()
+        {
+            return View(db.Message.Where(o => o.Nadawca == User.Identity.Name));
         }
 
         //
@@ -37,16 +47,17 @@ namespace Photolife.Controllers
         public ActionResult Create()
         {
             var users = Membership.GetAllUsers();
-            ViewBag.Usernames = new List<SelectListItem>();
+            List<SelectListItem> usernames = new List<SelectListItem>();
             
             foreach (MembershipUser item in users)
             {
-                ViewBag.Usernames.Add(new SelectListItem
+                usernames.Add(new SelectListItem
                 {
                     Text = item.UserName,
                     Value = item.UserName
                 });
             }
+            ViewBag.Odbiorca = usernames;
 
             return View();
         }
