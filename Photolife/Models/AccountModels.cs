@@ -30,8 +30,8 @@ namespace Photolife.Models
     public class LogOnModel
     {
         [Required]
-        [Display(Name = "Nazwa użytkownika")]
-        public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -44,10 +44,6 @@ namespace Photolife.Models
 
     public class RegisterModel
     {
-        [Required(ErrorMessage = "To pole jest wymagane.")]
-        [Display(Name = "Nazwa użytkownika")]
-        public string UserName { get; set; }
-
         [Required(ErrorMessage = "To pole jest wymagane.")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Adres e-mail")]
@@ -66,9 +62,8 @@ namespace Photolife.Models
     }
     public class ResetPasswordModel
     {
-        [Required(ErrorMessage = "Nazwa użytkownika jest wymagana, aby przypomnieć hasło.")]
-        public string Username { get; set; }
         [Required(ErrorMessage = "E-mail jest wymagany, aby przypomnieć hasło.")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }
     

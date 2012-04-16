@@ -52,9 +52,9 @@ namespace Photolife.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (Membership.ValidateUser(model.Email, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
@@ -67,7 +67,7 @@ namespace Photolife.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    ModelState.AddModelError("", "Email lub hasło jest niepoprawne.");
                 }
             }
 
@@ -103,11 +103,11 @@ namespace Photolife.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+                    FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -158,7 +158,7 @@ namespace Photolife.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                    ModelState.AddModelError("", "Aktualne lub nowe hasło jest niepoprawne");
                 }
             }
 
@@ -186,26 +186,26 @@ namespace Photolife.Controllers
             {
                 MembershipUser user;
                 if(Membership.FindUsersByEmail(model.Email).Count == 1
-                    && (user = Membership.GetUser(Membership.GetUserNameByEmail(model.Email))) != null)
+                    && (user = Membership.GetUser(Membership.GetUserNameByEmail(model.Email))) != null
+                    && ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
                 {
                     string password = user.ResetPassword();
-                    Membership.UpdateUser(user);
                     try
                     {
                         WebMail.SmtpServer = "poczta.o2.pl";
-                        WebMail.UserName = "Photolifenet@o2.pl";
+                        WebMail.UserName = "pznet@o2.pl";
                         WebMail.Password = "dupa123";
                         WebMail.Send(
                                 model.Email,
-                                "Reset hasła na Photolifenet",
+                                "Reset hasła na Photolife",
                                 "Witaj!<br /><br />" +
                                 "Właśnie zresetowaliśmy ci hasło w Photolifenet.<br /><br />" +
-                                "Login: " + model.Username + "<br />" +
+                                "Email: " + model.Email + "<br />" +
                                 "Hasło: " + password + "<br /><br />" +
                                 "Po zalogowaniu się w systemie możesz zmienić swoje hasło.<br /><br />",
-                                "Photolifenet@o2.pl"
+                                "pznet@o2.pl"
                             );
-
+                        Membership.UpdateUser(user);
                         return RedirectToAction("ResetPasswordSuccess");
                     }
                     catch (Exception ex)
@@ -215,7 +215,7 @@ namespace Photolife.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Użytkownik o podanym adresie e-mail lub peselu nie istnieje.");
+                    ModelState.AddModelError("", "Nie istnieje użytkownik z takim e-mailem.");
                 }
             }
 
