@@ -14,28 +14,13 @@
     <fieldset>
         <legend>Message</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Nadawca)
-        </div>
-        <div class="editor-field">
-           <b> @Html.ViewContext.HttpContext.User.Identity.Name </b>
-           
-            @Html.ValidationMessageFor(model=>model.Odbiorca)
-            
-
-            
-        </div>
-
+     
         <div class="editor-label">
             @Html.LabelFor(model => model.Odbiorca)
         </div>
         <div class="editor-field">
-            
-                            
-            @Html.EditorFor(model => model.Odbiorca)
-            
+            @Html.DropDownList("Usernames", String.Empty)
             @Html.ValidationMessageFor(model => model.Odbiorca)
-        
         </div>
 
         <div class="editor-label">

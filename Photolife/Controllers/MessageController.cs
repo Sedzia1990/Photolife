@@ -6,9 +6,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Photolife.Models;
+using System.Web.Security;
 
 namespace Photolife.Controllers
-{ 
+{
     public class MessageController : Controller
     {
         private PhotolifeEntities db = new PhotolifeEntities();
@@ -35,8 +36,20 @@ namespace Photolife.Controllers
 
         public ActionResult Create()
         {
+            var users = Membership.GetAllUsers();
+            ViewBag.Usernames = new List<SelectListItem>();
+            
+            foreach (MembershipUser item in users)
+            {
+                ViewBag.Usernames.Add(new SelectListItem
+                {
+                    Text = item.UserName,
+                    Value = item.UserName
+                });
+            }
+
             return View();
-        } 
+        }
 
         //
         // POST: /Message/Create
@@ -46,17 +59,18 @@ namespace Photolife.Controllers
         {
             if (ModelState.IsValid)
             {
+                message.Nadawca = User.Identity.Name;
                 db.Message.Add(message);
                 db.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(message);
         }
-        
+
         //
         // GET: /Message/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             Message message = db.Message.Find(id);
@@ -80,7 +94,7 @@ namespace Photolife.Controllers
 
         //
         // GET: /Message/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             Message message = db.Message.Find(id);
@@ -92,7 +106,7 @@ namespace Photolife.Controllers
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
-        {            
+        {
             Message message = db.Message.Find(id);
             db.Message.Remove(message);
             db.SaveChanges();
