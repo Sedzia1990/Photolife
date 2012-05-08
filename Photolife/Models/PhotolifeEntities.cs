@@ -7,5 +7,7 @@ namespace Photolife.Models
         // wrzucamy tutaj tworzone bazy danych
 
         public DbSet<Message> Message { get; set; }
+
+        public DbSet<Photo> Photos { get; set; }
     }
 }
