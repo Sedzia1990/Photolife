@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Ziomki";
+}
+
+<h2>Znajomości</h2>
+@Html.ActionLink("Dodaj znajomoego", "Create")
+
+<table>
+    <tr>
+        <th>
+            Znajomi
+        </th>
+    </tr>
+@foreach (var invitation in ViewBag.Friends) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => invitation)
+        </td>
+    </tr>
+}
+</table>
+
+<table>
+    <tr>
+        <th>
+            Zaprosili Cię
+        </th>
+    </tr>
+@foreach (var invitation in ViewBag.Invites) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => invitation)
+        </td>
+        <td>
+            @Html.ActionLink("Zaakceptuj", "Create", new { name=invitation })
+        </td>
+    </tr>
+}
+</table>
+
+<table>
+    <tr>
+        <th>
+            Zaprosiłeś
+        </th>
+    </tr>
+@foreach (var invitation in ViewBag.UrInvites) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => invitation)
+        </td>
+    </tr>
+}
+</table>

@@ -9,5 +9,7 @@ namespace Photolife.Models
         public DbSet<Message> Message { get; set; }
 
         public DbSet<Photo> Photos { get; set; }
+
+        public DbSet<Friendship> Friendships { get; set; }
     }
 }
