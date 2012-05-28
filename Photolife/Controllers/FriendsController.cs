@@ -92,16 +92,16 @@ namespace PZ.Controllers
             return View(friendship);
         }
 
-        //public ActionResult Create(string name)
-        //{
-        //    if (Membership.FindUsersByName(name) == null) return View();
-        //    Friendship friendship = new Friendship();
-        //    friendship.User = User.Identity.Name;
-        //    friendship.UserFriend = name;
-        //    db.Friendships.Add(friendship);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");  
-        //}
+        public ActionResult Accept(string name)
+        {
+            if (Membership.FindUsersByName(name) == null) return View();
+            Friendship friendship = new Friendship();
+            friendship.User = User.Identity.Name;
+            friendship.UserFriend = name;
+            db.Friendships.Add(friendship);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         //
         // GET: /Friends/Delete/5
