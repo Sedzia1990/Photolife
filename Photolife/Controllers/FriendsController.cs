@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Photolife.Models;
 using System.Web.Security;
 
-namespace PZ.Controllers
+namespace Photolife.Controllers
 {
     [CustomAuthorize(Roles = "Administrator, User")]
     public class FriendsController : Controller

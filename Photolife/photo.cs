@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using Photolife.Models;
 
-namespace PZ
+namespace Photolife
 {
     public class photo : DbContext
     {
