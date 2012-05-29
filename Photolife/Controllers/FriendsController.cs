@@ -9,7 +9,8 @@ using Photolife.Models;
 using System.Web.Security;
 
 namespace PZ.Controllers
-{ 
+{
+    [CustomAuthorize(Roles = "Administrator, User")]
     public class FriendsController : Controller
     {
         private PhotolifeEntities db = new PhotolifeEntities();
@@ -26,7 +27,7 @@ namespace PZ.Controllers
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
                     && o.UserFriend == invitation.User).Count() > 0)
-                    friends.Add(invitation.User);
+                    friends.Add(invitation.UserFriend);
             }
             ViewBag.Friends = friends;
 
@@ -48,7 +49,7 @@ namespace PZ.Controllers
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
                     && o.UserFriend == invitation.User).Count() > 0) ;
-                else urinvites.Add(invitation.User);
+                else urinvites.Add(invitation.UserFriend);
             }
             ViewBag.UrInvites = urinvites;
             return View();

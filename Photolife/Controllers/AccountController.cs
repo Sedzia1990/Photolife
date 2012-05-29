@@ -104,11 +104,19 @@ namespace Photolife.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid && ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
+            bool ok = true;
+            if (!ModelState.IsValid)
+            { ModelState.AddModelError("", "Złe dane"); ok = false; }
+            if (!ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
+            { ModelState.AddModelError("", "Błędnie przepisany kod captcha"); ok = false; }
+            if (Membership.FindUsersByEmail(model.Email).Count != 0)
+            { ModelState.AddModelError("", "Taki użytkownik już istnieje"); ok = false; }
+            if (ok == true)
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
                 Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
+                Roles.AddUserToRole(model.Email, "User");
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {

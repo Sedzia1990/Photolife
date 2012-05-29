@@ -10,6 +10,7 @@ using System.Web.Security;
 
 namespace Photolife.Controllers
 {
+    [CustomAuthorize(Roles = "Administrator, User")]
     public class MessageController : Controller
     {
         private PhotolifeEntities db = new PhotolifeEntities();
