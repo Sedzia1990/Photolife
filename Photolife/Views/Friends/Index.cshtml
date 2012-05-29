@@ -2,7 +2,7 @@
     ViewBag.Title = "Ziomki";
 }
 
-<h2>Znajomości</h2>h
+<h2>Znajomości</h2>
 @Html.ActionLink("Dodaj znajomego", "Create")
 
 <table>
@@ -15,6 +15,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => invitation)
+        </td>
+        <td>
+            @Html.ActionLink("Usuń", "DeleteByName", new { name=invitation })
         </td>
     </tr>
 }
@@ -48,6 +51,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => invitation)
+        </td>
+        <td>
+            @Html.ActionLink("Anuluj", "DeleteByName", new { name=invitation })
         </td>
     </tr>
 }

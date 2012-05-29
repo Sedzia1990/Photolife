@@ -66,11 +66,13 @@ namespace Photolife.Controllers
 
             foreach (MembershipUser item in users)
             {
-                usernames.Add(new SelectListItem
-                {
-                    Text = item.UserName,
-                    Value = item.UserName
-                });
+                if (db.Friendships.Where(o => o.User == User.Identity.Name
+                    && o.UserFriend == item.UserName).Count() == 0)
+                    usernames.Add(new SelectListItem
+                    {
+                        Text = item.UserName,
+                        Value = item.UserName
+                    });
             }
             ViewBag.UserFriend = usernames;
             return View();
@@ -111,6 +113,22 @@ namespace Photolife.Controllers
         {
             Friendship friendship = db.Friendships.Find(id);
             return View(friendship);
+        }
+
+        public ActionResult DeleteByName(string name)
+        {
+            var friendships = db.Friendships.Where(
+                o => o.User == User.Identity.Name &&
+                    o.UserFriend == name);
+
+            if (friendships.Count() > 0)
+            {
+                Friendship fs = friendships.First();
+                db.Friendships.Remove(fs);
+                db.SaveChanges();
+            }
+            
+            return RedirectToAction("Index");
         }
 
         //
