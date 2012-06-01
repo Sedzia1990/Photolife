@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Zalogowany jako: @User.Identity.Name</h2>
+
+<p>
+    @Html.ActionLink("Zmień hasło!", "ChangePassword")
+</p>
