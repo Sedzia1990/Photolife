@@ -29,6 +29,15 @@ a:hover {
 a:active {
     color: #12eb87;
 }
+a.FacebookLogin
+{
+     background: url(~Content/themes/base/images/ui-icons_Facebook.png) no-repeat top left;
+     display: block;
+     width: 150px;
+     height: 150px;
+     text-indent: -9999px; /* hides the link text */
+}
+
 
 p, ul {
     margin-bottom: 20px;

@@ -4,34 +4,18 @@
 }
 else
 {
-    <fb:login-button perms="email,user_checkins" onlogin="afterFacebookConnect();" 
-       autologoutlink="false" ></fb:login-button>
-    <div id="fb-root" style="display:inline; margin-left:20px;"></div>
-    @:[ @Html.ActionLink("Zaloguj!", "LogOn", "Account") ]
+    <a href=Account/Facebook>
+    <img src='../../Content/themes/base/images/ui-icons_Facebook.png' />
+</a>
+
+
+   
+  // @:[@Html.ActionLink("Połącz Z Facebookiem", "Facebook", "Account")]
+   
+                                                       
+   @:[@Html.ActionLink("Zaloguj!", "LogOn", "Account")]
+    
+
+   
 }
-<script language="javascript" type="text/javascript">
-    window.fbAsyncInit = function () {
-        FB.init({ appId: '252734311486230',
-            status: true, cookie: true, xfbml: true
-        });
-    };
-    function afterFacebookConnect() {
-        FB.getLoginStatus(function (response) {
-            if (response.session) {
-                window.location = "../Account/FacebookLogin?token=" +
-                       response.session.access_token;
-            } else {
-                // user clicked Cancel
-            }
-        });
-    };
-    $(document).ready(function () {
-        if (document.getElementById('fb-root') != undefined) {
-            var e = document.createElement('script');
-            e.type = 'text/javascript';
-            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-            e.async = true;
-            document.getElementById('fb-root').appendChild(e);
-        }
-    });
-</script>
+

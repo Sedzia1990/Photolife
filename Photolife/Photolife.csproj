@@ -38,7 +38,7 @@
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Facebook">
-      <HintPath>..\packages\Facebook.6.0.10.0\lib\net40-client\Facebook.dll</HintPath>
+      <HintPath>..\packages\Facebook.6.0.20\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Facebook.Web">
       <HintPath>..\packages\FacebookWeb.5.4.1.0\lib\net40\Facebook.Web.dll</HintPath>
@@ -46,12 +46,15 @@
     <Reference Include="Facebook.Web.Mvc">
       <HintPath>..\packages\FacebookWebMvc.5.4.1.0\lib\net40\Facebook.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Json">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Helpers">
       <HintPath>..\packages\microsoft-web-helpers.1.15\lib\Microsoft.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -110,6 +113,7 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_Facebook.png" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
     <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
@@ -227,6 +231,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Unauthorized.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\FacebookCreateSuccess.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

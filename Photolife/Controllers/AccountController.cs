@@ -8,9 +8,10 @@ using System.Web.Security;
 using Photolife.Models;
 using Microsoft.Web.Helpers;
 using System.Web.Helpers;
-using Newtonsoft.Json.Linq;
-using Facebook.Web;
+using Facebook;
 using System.Net;
+using System.IO;
+using System.Text;
 
 namespace Photolife.Controllers
 {
@@ -22,27 +23,136 @@ namespace Photolife.Controllers
         }
 
         [HttpGet]
-        public ActionResult FacebookLogin(string token)
+       
+        public ViewResult Login()
         {
-            WebClient client = new WebClient();
-            string JsonResult = client.DownloadString(string.Concat(
-                   "https://graph.facebook.com/me?access_token=", token));
-            // Json.Net is really helpful if you have to deal
-            // with Json from .Net http://json.codeplex.com/
-            JObject jsonUserInfo = JObject.Parse(JsonResult);
-            // you can get more user's info here. Please refer to:
-            //     http://developers.facebook.com/docs/reference/api/user/
-            string username = jsonUserInfo.Value<string>("username");
-            string email = jsonUserInfo.Value<string>("email");
-            string locale = jsonUserInfo.Value<string>("locale");
-            int facebook_userID = jsonUserInfo.Value<int>("id");
-
-            // store user's information here...
-            FormsAuthentication.SetAuthCookie(username, true);
-            return RedirectToAction("Index", "Home");
+            return View();
         }
-        //
-        // GET: /Account/LogOn
+
+        [HttpPost]
+        public ActionResult Login(string email, string pass)
+        {
+            pass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass, "SHA1");
+            
+          //  var result = from u in db.Users
+            //             where u.Email == email && u.Pass == pass
+              //           select u;
+
+           // if (result.Count() > 0)
+            //{
+            //    FormsAuthentication.SetAuthCookie(email, false);
+
+           //     return RedirectToAction("Index", "Home");
+          //  }
+
+            return View();
+        }
+
+        public ActionResult Facebook()
+        {
+            return new RedirectResult("https://graph.facebook.com/oauth/authorize?type=web_server&client_id=252734311486230&redirect_uri=http://localhost:1205/account/handshake/&scope=email%2Coffline_access%2Cuser_about_me");
+        }
+
+        [ActionName("handshake")]
+        public ActionResult Handshake(string code)
+        {
+            //after authentication, Facebook will redirect to this controller action with a QueryString parameter called "code" (this is Facebook's Session key)
+
+            //example uri: http://www.examplewebsite.com/facebook/handshake/?code=2.DQUGad7_kFVGqKTeGUqQTQ__.3600.1273809600-1756053625|dil1rmAUjgbViM_GQutw-PEgPIg.
+
+            //this is your Facebook App ID
+            string clientId = "252734311486230";
+
+            //this is your Secret Key
+            string clientSecret = "daa2835f96c1fd0c3b04c86504096714";
+
+            //we have to request an access token from the following Uri
+            string url = "https://graph.facebook.com/oauth/access_token?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}";
+
+            //your redirect uri must be EXACTLY the same Uri that caused the initial authentication handshake
+            string redirectUri = "http://localhost:1205/account/handshake/";
+
+            //Create a webrequest to perform the request against the Uri
+            WebRequest request = WebRequest.Create(string.Format(url, clientId, redirectUri, clientSecret, code));
+
+            //read out the response as a utf-8 encoding and parse out the access_token
+            WebResponse response = request.GetResponse();
+            Stream stream = response.GetResponseStream();
+            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+            StreamReader streamReader = new StreamReader(stream, encode);
+            string accessToken = streamReader.ReadToEnd().Replace("access_token=", "");
+            streamReader.Close();
+            response.Close();
+
+            //set the access token to some session variable so it can be used through out the session
+            Session["FacebookAccessToken"] = accessToken;
+
+            //
+            var client = new FacebookClient(accessToken);
+            dynamic me = client.Get("me");
+
+            string email = me.email;
+            
+                if (Membership.FindUsersByEmail(email).Count == 1)
+                {
+
+                    FormsAuthentication.SetAuthCookie(email, false /* createPersistentCookie */);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    RegisterModel model = new RegisterModel();
+
+                    model.Password = model.ConfirmPassword = Membership.GeneratePassword(10, 5);
+                    model.Email = email;
+
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            WebMail.SmtpServer = "poczta.o2.pl";
+                            WebMail.UserName = "pznet@o2.pl";
+                            WebMail.Password = "dupa123";
+                            WebMail.Send(
+                                    model.Email,
+                                    "Hasło do serwisu Photolife",
+                                    "Witaj!<br /><br />" +
+                                    "Właśnie stworzyliśmy ci konto na Photolifenet.<br /><br />" +
+                                    "Email: " + model.Email + "<br />" +
+                                    "Hasło: " + model.Password + "<br /><br />" +
+                                    "Po zalogowaniu się w systemie możesz zmienić swoje hasło.<br /><br />",
+                                    "pznet@o2.pl"
+                                );
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
+                        }
+
+                        MembershipCreateStatus createStatus;
+
+                        Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
+                        Roles.AddUserToRole(model.Email, "User");
+
+                        if (createStatus == MembershipCreateStatus.Success)
+                        {
+                            FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
+                            return RedirectToAction("FacebookCreateSuccess");
+                        }
+                    }
+                }
+            
+
+           // return View();
+
+
+
+            //FormsAuthentication.SetAuthCookie(email, false);
+
+            //return RedirectToAction("Index", "Home");
+
+            return Content(email);
+        }
 
         public ActionResult LogOn()
         {
@@ -198,8 +308,8 @@ namespace Photolife.Controllers
             if (ModelState.IsValid)
             {
                 MembershipUser user;
-                if(Membership.FindUsersByEmail(model.Email).Count == 1
-                    && (user = Membership.GetUser(Membership.GetUserNameByEmail(model.Email))) != null
+                if (Membership.FindUsersByEmail(model.Email).Count == 1 &&
+                    (user = Membership.GetUser(Membership.GetUserNameByEmail(model.Email))) != null
                     && ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
                 {
                     string password = user.ResetPassword();
@@ -231,11 +341,20 @@ namespace Photolife.Controllers
                     ModelState.AddModelError("", "Nie istnieje użytkownik z takim e-mailem.");
                 }
             }
+            else
+            {
+                ModelState.AddModelError("", "Nie istnieje użytkownik z takim e-mailem.");
+            }
 
-            return View(model);
+            return View();
         }
 
         public ActionResult ResetPasswordSuccess()
+        {
+            return View();
+        }
+
+        public ActionResult FacebookCreateSuccess()
         {
             return View();
         }
