@@ -5,36 +5,45 @@
 }
 
 <script type="text/javascript">
-   
-    $(document).ready(function(){
-        $('#editLink').click(function () {
-            $('#editForm').show();
+
+    $(document).ready(function () {
+
+        $('#editLink, #addLink').click(function () {
+            $('#descriptionForm').show();
             return false;
         })
-    })
-    function updateDescription(ajaxContext) {
-        alert(ajaxContext);
+        $('#descriptionForm').submit(function () {
 
-    }
+            $.ajax({
+                type: 'POST', url: this.action, data: $(this).serialize(), success: function (response) {
+                    //$('#ContactForm').find('.form_result').html(response);
+                    if (response.status == 'ok') {
+                        $('#description').html(response.description);
+                        $('#descriptionForm').hide();
+                    }
+                }
+            })
+            return false;
+        });
+
+
+    })
+
 </script>
+TODO: walidacja
 <h2>Dodał: @Model.MembershipUser.Email</h2>
 <span style="font-size: 20px">
+    <b style="font-size: 25px">Opis: </b> <span id="description">@Model.description</span>
     @if(Model.description != null && Model.description.Length != 0) {
-        <b style="font-size: 25px">Opis: </b> @Model.description
-        <small><br /><a href="#">Edytuj opis</a></small>
+        
+        <small><br /><a href="#" id="editLink">Edytuj opis</a></small>
     }
     else {
-        <small><br /><a href="#" id="editLink">Dodaj opis</a></small>
+        <small><br /><a href="#" id="addLink">Dodaj opis</a></small>
     }
-    @using (Ajax.BeginForm("Index", "Home", new AjaxOptions
-                        {
-                            UpdateTargetId = "editForm",
-                            InsertionMode = InsertionMode.Replace,
-                            //OnBegin = "ajaxValidate",
-                            OnSuccess = "updateDescription"
-                            //OnFailure = "showFaliure"
-                        },  new { style = "display: none", id = "editForm"})) {
-        <textarea name="description"></textarea>
+    @using (Html.BeginForm("EditDescription", "Photo",  new { id = Model.PhotoID }, FormMethod.Post, new { style = "display: none", id="descriptionForm" }))
+    {
+        <textarea name="description">@Model.description</textarea>
         <input type="submit" value="Zapisz opis" />
     }
 </span>

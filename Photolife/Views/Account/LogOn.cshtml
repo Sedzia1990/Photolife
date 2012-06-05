@@ -19,13 +19,13 @@
     <div>
         <fieldset>
             <legend>Konto</legend>
-
+            
             <div class="editor-label">
-                @Html.LabelFor(m => m.Email)
+                @Html.LabelFor(m => m.EmailOrLogin)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.Email)
-                @Html.ValidationMessageFor(m => m.Email)
+                @Html.TextBoxFor(m => m.EmailOrLogin)
+                @Html.ValidationMessageFor(m => m.EmailOrLogin)
             </div>
 
             <div class="editor-label">
@@ -45,7 +45,7 @@
                 <input type="submit" value="Zaloguj" />
             </p>
             <div><small>
-            Nie masz konta? Po prostu @Html.ActionLink("zarejestruj się!", "Register"). <br />
+            Nie masz konta? @Html.ActionLink("Zarejestruj się!", "Register"). <br />
             Zapomniałeś hasła? @Html.ActionLink("Resetuj hasło!", "ResetPassword")
             </small></div>
         </fieldset>

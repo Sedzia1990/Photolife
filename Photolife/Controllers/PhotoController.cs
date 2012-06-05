@@ -127,6 +127,28 @@ namespace Photolife.Controllers
 
 
         //
+        // POST: /Photo/Edit/5
+
+        [HttpPost]
+        public JsonResult EditDescription(int id, String description)
+        {
+            Photo photo = db.Photos.Find(id);
+            photo.description = description;
+            db.Entry(photo).State = EntityState.Modified;
+            db.SaveChanges();
+            JsonResult result = new JsonResult();
+            result.Data = new
+            {
+                status = "ok",
+                description = description
+            };
+            return result;
+
+            //return View(photo);
+        }
+
+
+        //
         // GET: /Photo/Edit/5
 
         public ActionResult Edit(int id)

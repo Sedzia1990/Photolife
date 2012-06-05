@@ -167,9 +167,15 @@ namespace Photolife.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.Email, model.Password))
+                string username = model.EmailOrLogin;
+                if (Membership.FindUsersByEmail(model.EmailOrLogin).Count > 0)
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
+                    username = Membership.GetUserNameByEmail(model.EmailOrLogin);
+                }
+
+                if (Membership.ValidateUser(username, model.Password))
+                {
+                    FormsAuthentication.SetAuthCookie(username, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
@@ -182,7 +188,7 @@ namespace Photolife.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email lub hasło jest niepoprawne.");
+                    ModelState.AddModelError("", "Email/Login lub hasło jest niepoprawne.");
                 }
             }
 
@@ -217,25 +223,29 @@ namespace Photolife.Controllers
             bool ok = true;
             if (!ModelState.IsValid)
             { ModelState.AddModelError("", "Złe dane"); ok = false; }
-            if (!ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
-            { ModelState.AddModelError("", "Błędnie przepisany kod captcha"); ok = false; }
-            if (Membership.FindUsersByEmail(model.Email).Count != 0)
-            { ModelState.AddModelError("", "Taki użytkownik już istnieje"); ok = false; }
-            if (ok == true)
             {
-                // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
-                Roles.AddUserToRole(model.Email, "User");
+                if (!ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
+                { ModelState.AddModelError("", "Błędnie przepisany kod captcha"); ok = false; }
+                if (Membership.FindUsersByEmail(model.Email).Count != 0)
+                { ModelState.AddModelError("", "Email w użyciu"); ok = false; }
+                if (Membership.FindUsersByName(model.Login).Count != 0)
+                { ModelState.AddModelError("", "Taki użytkownik już istnieje"); ok = false; }
+                if (ok == true)
+                {
+                    // Attempt to register the user
+                    MembershipCreateStatus createStatus;
+                    Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
+                    Roles.AddUserToRole(model.Login, "User");
 
-                if (createStatus == MembershipCreateStatus.Success)
-                {
-                    FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
+                    if (createStatus == MembershipCreateStatus.Success)
+                    {
+                        FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", ErrorCodeToString(createStatus));
+                    }
                 }
             }
 
@@ -293,6 +303,62 @@ namespace Photolife.Controllers
         // GET: /Account/ChangePasswordSuccess
 
         public ActionResult ChangePasswordSuccess()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/ChangeEmail
+
+        [Authorize]
+        public ActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/ChangeEmail
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ChangeEmail(ChangeEmailModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                // ChangePassword will throw an exception rather
+                // than return false in certain failure scenarios.
+                bool changePasswordSucceeded = true;
+                if (Membership.FindUsersByEmail(model.Email).Count != 0) changePasswordSucceeded = false;
+                try
+                {
+                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
+                    currentUser.Email = model.Email;
+                    Membership.UpdateUser(currentUser);
+                }
+                catch (Exception)
+                {
+                    changePasswordSucceeded = false;
+                }
+
+                if (changePasswordSucceeded)
+                {
+                    return RedirectToAction("ChangeEmailSuccess");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Aktualne hasło lub email jest niepoprawny");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // GET: /Account/ChangeEmailSuccess
+
+        public ActionResult ChangeEmailSuccess()
         {
             return View();
         }
