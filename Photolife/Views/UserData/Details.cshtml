@@ -1,0 +1,35 @@
+﻿@model Photolife.Models.UserData
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>UserData</legend>
+
+    <div class="display-label">MembershipUserID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MembershipUserID)
+    </div>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">Surname</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Surname)
+    </div>
+
+    <div class="display-label">ProfilePhotoLink</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProfilePhotoLink)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserDataID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

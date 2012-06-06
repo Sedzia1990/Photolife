@@ -129,9 +129,19 @@ namespace Photolife.Controllers
                             System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
                         }
 
+                        string profileFoto = "https://graph.facebook.com/" + me.username + "/picture";
+
                         MembershipCreateStatus createStatus;
 
-                        Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
+                        MembershipUser newuser = Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
+                        
+                        //UserData userdata = new UserData();
+                        //userdata.MembershipUserID = (Guid)newuser.ProviderUserKey;
+                        //userdata.MembershipUser = newuser;
+                        //userdata.Name = "";
+                        //userdata.Surname = "";
+                        //userdata.ProfilePhotoLink = "";
+                        
                         Roles.AddUserToRole(model.Email, "User");
 
                         if (createStatus == MembershipCreateStatus.Success)

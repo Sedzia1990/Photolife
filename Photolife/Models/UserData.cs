@@ -10,8 +10,6 @@ namespace Photolife.Models
 {
     public class UserData
     {
-        public int UserDataID { get; set; }
-
         public Guid MembershipUserID { get; set; }
         virtual public MembershipUser MembershipUser { get; set; }
 
@@ -19,6 +17,6 @@ namespace Photolife.Models
 
         public string Surname { get; set; }
 
-        public string ProfilePhotoLink { get; set; }
+        //public string ProfilePhotoLink { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace Photolife.Models
         public DbSet<Photo> Photos { get; set; }
 
         public DbSet<Friendship> Friendships { get; set; }
+
+        public DbSet<UserData> UserDatas { get; set; }
     }
 }
