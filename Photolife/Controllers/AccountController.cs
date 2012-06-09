@@ -117,7 +117,7 @@ namespace Photolife.Controllers
                                     model.Email,
                                     "Hasło do serwisu Photolife",
                                     "Witaj!<br /><br />" +
-                                    "Właśnie stworzyliśmy ci konto na Photolifenet.<br /><br />" +
+                                    "Właśnie stworzyliśmy ci konto na Photolife.net.<br /><br />" +
                                     "Email: " + model.Email + "<br />" +
                                     "Hasło: " + model.Password + "<br /><br />" +
                                     "Po zalogowaniu się w systemie możesz zmienić swoje hasło.<br /><br />",
@@ -136,14 +136,23 @@ namespace Photolife.Controllers
                             //string remoteImgPathBig = "https://graph.facebook.com/" + me.username + "/picture?size=large";
                             // string remoteImgPathWithoutQuery = remoteImgPathUri.GetLeftPart(UriPartial.Path);
                             Uri remoteImgPathUriSmall = new Uri(remoteImgPathSmall);
-                            string fileName = Path.GetFileName(remoteImgPathSmall);
-                            // ponizej prawdopodnobnie zmienic  me.username na userID czy jakos tak
-                            string localPath = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + me.username + "avatar.jpg");
+                            //string fileName = Path.GetFileName(remoteImgPathSmall);
+
+                            var fileName = String.Format("{0}", Guid.NewGuid().ToString());
+
+                          
+
+                            string localPath = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + fileName);
+
+
                             WebRequest focia = WebRequest.Create(string.Format(remoteImgPathSmall, code));
                             WebResponse odpfocia = focia.GetResponse();
                             String oo = odpfocia.ResponseUri.AbsoluteUri;
                             WebClient webClient = new WebClient();
                             webClient.DownloadFile(oo, localPath);
+
+               //             var avatar = ResizeImage(oo ,50 50 );
+
                        
                         MembershipCreateStatus createStatus;
 

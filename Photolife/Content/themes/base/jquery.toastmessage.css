@@ -51,15 +51,15 @@
 }
 
 .toast-item-image-notice {
-    background:url(/images/notice.png);
+    background:url(/images/error.png);
 }
 
 .toast-item-image-success {
-    background:url(/images/success.png);
+    background:url(/images/error.png);
 }
 
 .toast-item-image-warning {
-    background:url(/images/warning.png);
+    background:url(/images/error.png);
 }
 
 .toast-item-image-error {
