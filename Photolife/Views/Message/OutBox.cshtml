@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Photolife.Models.Message>
+
+@{
+    ViewBag.Title = "Wiadomości";
+}
+
+<h2>Wysłane</h2>
+
+
+<table>
+    <tr>
+        <th>
+            Do
+        </th>
+        <th>
+            Tytuł
+        </th>
+        <th>
+            Treść
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Odbiorca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tytuł)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Treść)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.MessageId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MessageId })
+        </td>
+    </tr>
+}
+
+</table>

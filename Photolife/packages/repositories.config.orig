@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<repositories>
+<<<<<<< HEAD
+  <repository path="..\PZnet\packages.config" />
+=======
+  <repository path="..\PZ\packages.config" />
+>>>>>>> 9ccf9596f0b7daac49e70b26eadf2bc859b21840
+</repositories>

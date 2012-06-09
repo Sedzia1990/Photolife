@@ -1,0 +1,97 @@
+﻿@model Photolife.Models.Photo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#editLink, #addLink').click(function () {
+            $('#descriptionForm').show();
+            return false;
+        })
+        $('#descriptionForm').submit(function () {
+
+            $.ajax({
+                type: 'POST', url: this.action, data: $(this).serialize(), success: function (response) {
+                    //$('#ContactForm').find('.form_result').html(response);
+                    if (response.status == 'ok') {
+                        $('#description').html(response.description);
+                        $('#descriptionForm').hide();
+                    }
+                }
+            })
+            return false;
+        });
+
+
+    })
+
+</script>
+TODO: walidacja
+<h2>Dodał: @Model.MembershipUser.Email</h2>
+<span style="font-size: 20px">
+    <b style="font-size: 25px">Opis: </b> <span id="description">@Model.description</span>
+    @if(Model.description != null && Model.description.Length != 0) {
+        
+        <small><br /><a href="#" id="editLink">Edytuj opis</a></small>
+    }
+    else {
+        <small><br /><a href="#" id="addLink">Dodaj opis</a></small>
+    }
+    @using (Html.BeginForm("EditDescription", "Photo",  new { id = Model.PhotoID }, FormMethod.Post, new { style = "display: none", id="descriptionForm" }))
+    {
+        <textarea name="description">@Model.description</textarea>
+        <input type="submit" value="Zapisz opis" />
+    }
+</span>
+<br /><br />
+<img src="@Url.Content(Model.FilePath800)" />
+
+@*
+<fieldset>
+    <legend>Photo</legend>
+    
+    <div class="display-label">Image</div>
+    <div class="display-field">
+        
+        @Html.DisplayFor(model => model.prefix)
+    </div>
+
+    <div class="display-label">FileName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FileName)
+    </div>
+
+    <div class="display-label">FileName800</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FileName800)
+    </div>
+
+    <div class="display-label">FileName200</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FileName200)
+    </div>
+
+    <div class="display-label">FilePath</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FilePath)
+    </div>
+
+    <div class="display-label">FilePath200</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FilePath200)
+    </div>
+
+    <div class="display-label">FilePath800</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FilePath800)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.PhotoID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+*@
