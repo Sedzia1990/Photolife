@@ -103,7 +103,7 @@
   <ItemGroup>
     <Content Include="Content\themes\base\images\close.gif" />
     <Content Include="Content\themes\base\images\error.png" />
-    <Content Include="Content\themes\base\images\jquery.toastmessage.css" />
+    <Content Include="Content\themes\base\images\mail_icon.png" />
     <Content Include="Content\themes\base\images\notice.png" />
     <Content Include="Content\themes\base\images\success.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -121,6 +121,7 @@
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_Facebook.png" />
     <Content Include="Content\themes\base\images\warning.png" />
+    <Content Include="Content\themes\base\jquery.toastmessage.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
     <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />

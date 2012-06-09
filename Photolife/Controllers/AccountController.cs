@@ -93,7 +93,7 @@ namespace Photolife.Controllers
 
             string email = me.email;
             
-                if (Membership.FindUsersByEmail(email).Count == 1)
+                if (Membership.FindUsersByEmail(email).Count >= 1)
                 {
 
                     FormsAuthentication.SetAuthCookie(email, false /* createPersistentCookie */);
