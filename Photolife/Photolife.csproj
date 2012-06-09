@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.toastmessage.css" />
     <Content Include="Content\themes\base\images\close.gif" />
     <Content Include="Content\themes\base\images\error.png" />
     <Content Include="Content\themes\base\images\mail_icon.png" />
