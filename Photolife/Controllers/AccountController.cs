@@ -12,6 +12,7 @@ using Facebook;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Drawing;
 
 namespace Photolife.Controllers
 {
@@ -29,10 +30,10 @@ namespace Photolife.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Login(string email, string pass)
-        {
-            pass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass, "SHA1");
+       // [HttpPost]
+       // public ActionResult Login(string email, string pass)
+       // {
+        //    pass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass, "SHA1");
             
           //  var result = from u in db.Users
             //             where u.Email == email && u.Pass == pass
@@ -45,8 +46,8 @@ namespace Photolife.Controllers
            //     return RedirectToAction("Index", "Home");
           //  }
 
-            return View();
-        }
+      //      return View();
+       // }
 
         public ActionResult Facebook()
         {
@@ -95,7 +96,7 @@ namespace Photolife.Controllers
             
                 if (Membership.FindUsersByEmail(email).Count >= 1)
                 {
-
+                 
                     FormsAuthentication.SetAuthCookie(email, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
@@ -132,26 +133,38 @@ namespace Photolife.Controllers
                         //string profileFoto = "https://graph.facebook.com/" + me.username + "/picture";
 
                             // Ściągniecie avatara z fejsa do photolife
-                            string remoteImgPathSmall = "https://graph.facebook.com/" + me.username + "/picture?type=large";
-                            //string remoteImgPathBig = "https://graph.facebook.com/" + me.username + "/picture?size=large";
+                           
+                            
                             // string remoteImgPathWithoutQuery = remoteImgPathUri.GetLeftPart(UriPartial.Path);
-                            Uri remoteImgPathUriSmall = new Uri(remoteImgPathSmall);
                             //string fileName = Path.GetFileName(remoteImgPathSmall);
+                            
 
-                            var fileName = String.Format("{0}", Guid.NewGuid().ToString());
-
-                          
-
-                            string localPath = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + fileName);
-
-
-                            WebRequest focia = WebRequest.Create(string.Format(remoteImgPathSmall, code));
+                        //  big
+                            string remoteImgPathBig = "https://graph.facebook.com/" + me.username + "/picture?type=large";
+                            Uri remoteImgPathUriBig = new Uri(remoteImgPathBig);
+                            string localPath = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + me.username + "big.jpg");
+                            WebRequest focia = WebRequest.Create(string.Format(remoteImgPathBig, code));
                             WebResponse odpfocia = focia.GetResponse();
                             String oo = odpfocia.ResponseUri.AbsoluteUri;
                             WebClient webClient = new WebClient();
                             webClient.DownloadFile(oo, localPath);
+                        // big
 
-               //             var avatar = ResizeImage(oo ,50 50 );
+                        //50
+                            string remoteImg50Path = "https://graph.facebook.com/" + me.username + "/picture?size=small";
+                            string localPath50 = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + me.username +"50.jpg");
+
+                            Uri remoteImg50PathUri = new Uri(remoteImg50Path);
+                            WebRequest focia50 = WebRequest.Create(string.Format(remoteImg50Path, code));
+                            WebResponse odpfocia50 = focia50.GetResponse();
+                            String oo50 = odpfocia50.ResponseUri.AbsoluteUri;
+                            WebClient webClient50 = new WebClient();
+                            webClient.DownloadFile(oo50, localPath50);
+                        //50
+
+                       
+
+                       
 
                        
                         MembershipCreateStatus createStatus;
@@ -161,11 +174,36 @@ namespace Photolife.Controllers
                         UserData userdata = new UserData();
                         userdata.MembershipUserID = (Guid)newuser.ProviderUserKey;
                         userdata.MembershipUser = newuser;
-                        userdata.Name = me.name;
-                        userdata.Surname = me.lastname;
+                        userdata.Name = me.first_name;
+                        userdata.Surname = me.last_name;
                         //userdata.ProfilePhotoLink = "";
                         
                         Roles.AddUserToRole(model.Email, "User");
+                        
+
+
+
+                        // powiązanie fot z userem
+                        //50
+                        var entity50 = new PhotolifeEntities();
+                        var photo50 = new Photo();
+                        photo50.prefix = localPath50;
+                        photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
+                        photo50.MembershipUser = newuser;
+                        entity50.Photos.Add(photo50);
+                       // entity50.SaveChanges();
+                       // photo50.SaveChanges();
+                        
+                        //big
+                        var entitybig = new PhotolifeEntities();
+                        var photobig = new Photo();
+                        photobig.prefix = localPath;
+                        photobig.MembershipUserID = (Guid)newuser.ProviderUserKey;
+                        photobig.MembershipUser = newuser;
+                        entitybig.Photos.Add(photobig);
+                      //  entitybig.SaveChanges();
+                      //  photobig.SaveChanges();
+
 
                         if (createStatus == MembershipCreateStatus.Success)
                         {
