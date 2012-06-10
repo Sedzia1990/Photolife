@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Photolife.Models;
 using System.Web.Security;
+using System.Threading;
 
 namespace Photolife.Controllers
 {
@@ -22,7 +23,7 @@ namespace Photolife.Controllers
         {
             return View();
         }
-
+        
         public ViewResult InBox()
         {
             return View(db.Message.Where(o => o.Odbiorca == User.Identity.Name));

@@ -48,13 +48,15 @@ namespace Photolife.Controllers
         // POST: /Photo/Create
 
         [HttpPost]
-        public ActionResult Create(HttpPostedFileWrapper imageFile)
+        public JsonResult Create(HttpPostedFileWrapper imageFile)
         {
+            JsonResult json = new JsonResult();
 
             if (imageFile == null || imageFile.ContentLength == 0)
             {
-                ViewBag.error = true;
-                return View();
+               
+                json.Data = new {status = "no_file"};
+                return json;
             }
 
             var fileName = String.Format("{0}", Guid.NewGuid().ToString());
@@ -67,31 +69,20 @@ namespace Photolife.Controllers
             var Image800 = ResizeImage(oryginalImage, 600, 800);
             var image200 = ResizeImage(oryginalImage, 200, 200);
 
-            // save
+            // save to 
             Image800.Save(imagePath + "_800.jpg");
             image200.Save(imagePath + "_200.jpg");
 
             // save to db
             var photo = new Photo();
             photo.prefix = fileName;
-            photo.MembershipUserID = (Guid)Membership.GetUser().ProviderUserKey;
+           // photo.MembershipUserID = (Guid)Membership.GetUser().ProviderUserKey;
             photo.MembershipUser = Membership.GetUser();
             db.Photos.Add(photo);
             db.SaveChanges();
 
-
-
-            return RedirectToAction("Details", new { id = photo.PhotoID });
-
-
-            //if (ModelState.IsValid)
-            //  {
-            //       db.Photos.Add(photo);
-            //       db.SaveChanges();
-            //       return RedirectToAction("Index");  
-            //   }
-
-            //return View(photo);
+            json.Data = new {status = "ok", redirect = Url.Action("Details", "Photo", new { id=photo.PhotoID.ToString()}) };
+            return json;
         }
 
         private Image ResizeImage(Image image, int maxWidth, int maxHeight)

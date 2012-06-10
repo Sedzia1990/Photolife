@@ -4,25 +4,27 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-   
+    <link href="@Url.Content("~/Content/stars.css")" rel="stylesheet" type="text/css" />
+
     <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.form.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.json.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.MetaData.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.rating.pack.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/global.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var addthis_config = {     
+            services_overlay:'facebook,twitter,email,print,more'
+        }
+       
+    </script>
+    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fc8c3cd2e735df6"></script>  
 </head>
 <body>
+    <div id="navBG"></div>
     <div class="page">
-        <div id="navBG">
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    var width = $(document).width();
-                    width -= $('.page').width();
-
-                    $('#navBG').width(width / 2 + 'px');
-                    //alert(width / 2);
-
-                });
-            </script>
-        </div>
+        
         <header>
             <h1 id="logo">
                 <a href="@Url.Action("Index", "Home", null)">

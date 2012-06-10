@@ -37,7 +37,22 @@
          <img src="@Url.Content("~/Content/img/baner.png")" />
     </section>
 
-    <section class="roundA homeCenter" >
+    <section class="roundA homeCenter">
+
+         <section class="grayBG searchFriends">
+            <h2>SZUKAJ ZNAJOMYCH</h2>
+            <img src="@Url.Content("~/Content/img/hrB.png")" class="hrB" />
+            <br />
+            @using (Html.BeginForm("Index", "Friends", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                @Html.ValidationSummary(true)
+                <input type="text" placeholder="Szukaj znajomych" />
+                
+                <input type="submit" value="Szukaj" />
+            }
+            
+            <div class="clearer"></div>
+        </section>
+
         <section class="grayBG bestPhotos">
             <h2>NAJLEPSZE ZDJĘCIA</h2>
             <img src="@Url.Content("~/Content/img/hrB.png")" class="hrB" />
@@ -62,7 +77,32 @@
             <div class="clearer"></div>
         </section>
        
+       <section class="grayBG bestPhotos">
+            <h2>NAJNOWSZE ZDJĘCIA</h2>
+            <img src="@Url.Content("~/Content/img/hrB.png")" class="hrB" />
+            <br />
+
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <br />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+            <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
+
+            <br />
+            <a href="#">
+                <img src="@Url.Content("~/Content/img/buttons/przegladaj.png")" class="browse hoverable" />
+            </a>
+            <div class="clearer"></div>
+        </section>
     </section>
+
+
 </div>
 
 <section class="roundA newestPhotos">

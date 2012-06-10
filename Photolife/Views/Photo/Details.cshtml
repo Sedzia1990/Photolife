@@ -26,8 +26,39 @@
             return false;
         });
 
+        $.fn.rating.options = { //$.extend($.fn.rating, { options: {
+            cancel: 'Wycofaj swój głos',   // advisory title for the 'cancel' link
+            cancelValue: '0',           // value to submit when user click the 'cancel' link
+            split: 0,                  // split the star into how many parts?
+
+            // Width of star image in case the plugin can't work it out. This can happen if
+            // the jQuery.dimensions plugin is not available OR the image is hidden at installation
+            starWidth: 16,
+
+            //NB.: These don't need to be pre-defined (can be undefined/null) so let's save some code!
+            //half:     false,         // just a shortcut to control.split = 2
+            //required: false,         // disables the 'cancel' button so user can only select one of the specified values
+            //readOnly: false,         // disable rating plugin interaction/ values cannot be changed
+            //focus:    function(){},  // executed when stars are focused
+            //blur:     function(){},  // executed when stars are focused
+            callback: function () {
+                $.ajax({
+                    type: 'POST', url: $('#voteForm').action, data: $('#voteForm').serialize(), success: function (response) {
+                        alert(response);
+                        //$('#ContactForm').find('.form_result').html(response);
+                        //if (response.status == 'ok') {
+                        //   $('#description').html(response.description);
+                        //    $('#descriptionForm').hide();
+                        //}
+                    }
+                })
+                return false;
+            }  // executed when a star is clicked
+        }; //} });
 
     })
+
+  
 
 </script>
 TODO: walidacja
@@ -35,7 +66,6 @@ TODO: walidacja
 <span style="font-size: 20px">
     <b style="font-size: 25px">Opis: </b> <span id="description">@Model.description</span>
     @if(Model.description != null && Model.description.Length != 0) {
-        
         <small><br /><a href="#" id="editLink">Edytuj opis</a></small>
     }
     else {
@@ -48,50 +78,14 @@ TODO: walidacja
     }
 </span>
 <br /><br />
-<img src="@Url.Content(Model.FilePath800)" />
-
-@*
-<fieldset>
-    <legend>Photo</legend>
-    
-    <div class="display-label">Image</div>
-    <div class="display-field">
-        
-        @Html.DisplayFor(model => model.prefix)
+<img src="@Url.Content(Model.FilePath200)" class="addthis_shareable" alt="Zdjęcie" />
+@using (Html.BeginForm("Rate", "Photo",  new { id = Model.PhotoID }, FormMethod.Post, new { id="rateForm" }))
+{
+    <div>
+        <input name="star1" type="radio" class="star" value="1"/>
+        <input name="star1" type="radio" class="star" value="2"/>
+        <input name="star1" type="radio" class="star" value="3"/>
+        <input name="star1" type="radio" class="star" value="4"/>
+        <input name="star1" type="radio" class="star" value="5"/>
     </div>
-
-    <div class="display-label">FileName</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FileName)
-    </div>
-
-    <div class="display-label">FileName800</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FileName800)
-    </div>
-
-    <div class="display-label">FileName200</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FileName200)
-    </div>
-
-    <div class="display-label">FilePath</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FilePath)
-    </div>
-
-    <div class="display-label">FilePath200</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FilePath200)
-    </div>
-
-    <div class="display-label">FilePath800</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FilePath800)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.PhotoID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-*@
+}

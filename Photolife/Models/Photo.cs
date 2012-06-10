@@ -12,7 +12,7 @@ namespace Photolife.Models
     {
         public int PhotoID { get; set; }
 
-        public Guid MembershipUserID { get; set; }
+      //  public Guid MembershipUserID { get; set; }
         virtual public MembershipUser MembershipUser { get; set; }
 
         public string description { get; set; }
@@ -74,5 +74,6 @@ namespace Photolife.Models
                 return Path.Combine("~/Content/UserImages", FileName800);
             }
         }
+
     }
 }
