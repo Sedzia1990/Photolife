@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +12,7 @@ using Facebook;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Data;
 
 namespace Photolife.Controllers
 {
@@ -21,7 +22,32 @@ namespace Photolife.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+            return View(UserData);
+        }
+
+        public ActionResult EditData()
+        {
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+            return View(UserData);
+        }
+
+        [HttpPost]
+        public ActionResult EditData(UserData model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+                UserData.FirstName = model.FirstName;
+                UserData.LastName = model.LastName;
+                db.Entry(UserData).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("EditData");
         }
 
         [HttpGet]
@@ -169,12 +195,11 @@ namespace Photolife.Controllers
                         MembershipUser newuser = Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
                         
                         UserData ud = new UserData();
-                        ud.MembershipUser = newuser;
                         ud.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        if((ud.Name = me.first_name) == null)
-                            ud.Name = "";
-                        if ((ud.Surname = me.last_name) == null)
-                            ud.Surname = "";
+                        if((ud.FirstName = me.first_name) == null)
+                            ud.FirstName = "";
+                        if ((ud.LastName = me.last_name) == null)
+                            ud.LastName = "";
                         db.UserDatas.Add(ud);
                         db.SaveChanges();
                         //userdata.ProfilePhotoLink = "";
@@ -311,10 +336,9 @@ namespace Photolife.Controllers
                     Roles.AddUserToRole(model.Login, "User");
 
                     UserData ud = new UserData();
-                    ud.MembershipUser = user;
                     ud.MembershipUserID = (Guid)user.ProviderUserKey;
-                    ud.Name = "";
-                    ud.Surname = "";
+                    ud.FirstName = "";
+                    ud.LastName = "";
                     db.UserDatas.Add(ud);
                     db.SaveChanges();
                     
@@ -452,13 +476,11 @@ namespace Photolife.Controllers
             return View();
         }
 
-        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ResetPassword()
         {
             return View();
         }
 
-        [CustomAuthorize(Roles = "Administrator, User")]
         [HttpPost]
         public ActionResult ResetPassword(ResetPasswordModel model)
         {
@@ -509,7 +531,6 @@ namespace Photolife.Controllers
             return View();
         }
 
-        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ResetPasswordSuccess()
         {
             return View();
