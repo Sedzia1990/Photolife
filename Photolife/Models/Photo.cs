@@ -74,10 +74,5 @@ namespace Photolife.Models
                 return Path.Combine("~/Content/UserImages", FileName800);
             }
         }
-
-        internal void SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

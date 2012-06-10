@@ -90,6 +90,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\PhotolifeEntities.cs" />
     <Compile Include="Models\SampleData.cs" />
+    <Compile Include="NowaKlasa.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

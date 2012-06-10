@@ -12,12 +12,13 @@ using Facebook;
 using System.Net;
 using System.IO;
 using System.Text;
-using System.Drawing;
 
 namespace Photolife.Controllers
 {
     public class AccountController : Controller
     {
+        private PhotolifeEntities db = new PhotolifeEntities();
+
         public ActionResult Index()
         {
             return View();
@@ -30,10 +31,11 @@ namespace Photolife.Controllers
             return View();
         }
 
-       // [HttpPost]
-       // public ActionResult Login(string email, string pass)
-       // {
-        //    pass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass, "SHA1");
+        [HttpPost]
+        public ActionResult Login(string email, string pass)
+        {
+            email = email.ToLower();
+            pass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass, "SHA1");
             
           //  var result = from u in db.Users
             //             where u.Email == email && u.Pass == pass
@@ -46,8 +48,8 @@ namespace Photolife.Controllers
            //     return RedirectToAction("Index", "Home");
           //  }
 
-      //      return View();
-       // }
+            return View();
+        }
 
         public ActionResult Facebook()
         {
@@ -93,11 +95,17 @@ namespace Photolife.Controllers
             dynamic me = client.Get("me");
 
             string email = me.email;
+            email = email.ToLower();
+            string Login = "";
+            foreach (char c in email)
+                if (c == '@') break;
+                else Login += c;
             
-                if (Membership.FindUsersByEmail(email).Count >= 1)
+                if (Membership.FindUsersByEmail(email).Count != 0)
                 {
-                 
-                    FormsAuthentication.SetAuthCookie(email, false /* createPersistentCookie */);
+                    if(Membership.GetUser(email) != null)
+                        Login = email;
+                    FormsAuthentication.SetAuthCookie(Login, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -106,6 +114,8 @@ namespace Photolife.Controllers
 
                     model.Password = model.ConfirmPassword = Membership.GeneratePassword(10, 5);
                     model.Email = email;
+
+                    model.Login = Login;
 
                     if (ModelState.IsValid)
                     {
@@ -118,7 +128,8 @@ namespace Photolife.Controllers
                                     model.Email,
                                     "Hasło do serwisu Photolife",
                                     "Witaj!<br /><br />" +
-                                    "Właśnie stworzyliśmy ci konto na Photolife.net.<br /><br />" +
+                                    "Właśnie stworzyliśmy ci konto na Photolifenet.<br /><br />" +
+                                    "Login: " + model.Login + "<br />" +
                                     "Email: " + model.Email + "<br />" +
                                     "Hasło: " + model.Password + "<br /><br />" +
                                     "Po zalogowaniu się w systemie możesz zmienić swoje hasło.<br /><br />",
@@ -133,81 +144,41 @@ namespace Photolife.Controllers
                         //string profileFoto = "https://graph.facebook.com/" + me.username + "/picture";
 
                             // Ściągniecie avatara z fejsa do photolife
-                           
-                            
+                            string remoteImgPathSmall = "https://graph.facebook.com/" + me.username + "/picture?type=large";
+                            //string remoteImgPathBig = "https://graph.facebook.com/" + me.username + "/picture?size=large";
                             // string remoteImgPathWithoutQuery = remoteImgPathUri.GetLeftPart(UriPartial.Path);
-                            //string fileName = Path.GetFileName(remoteImgPathSmall);
-                            
-
-                        //  big
-                            string remoteImgPathBig = "https://graph.facebook.com/" + me.username + "/picture?type=large";
-                            Uri remoteImgPathUriBig = new Uri(remoteImgPathBig);
-                            string localPath = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + me.username + "big.jpg");
-                            WebRequest focia = WebRequest.Create(string.Format(remoteImgPathBig, code));
+                            Uri remoteImgPathUriSmall = new Uri(remoteImgPathSmall);
+                            string fileName = Path.GetFileName(remoteImgPathSmall);
+                            // ponizej prawdopodnobnie zmienic  me.username na userID czy jakos tak
+                            string localPath = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + me.username + "avatar.jpg");
+                            WebRequest focia = WebRequest.Create(string.Format(remoteImgPathSmall, code));
                             WebResponse odpfocia = focia.GetResponse();
                             String oo = odpfocia.ResponseUri.AbsoluteUri;
                             WebClient webClient = new WebClient();
                             webClient.DownloadFile(oo, localPath);
-                        // big
-
-                        //50
-                            string remoteImg50Path = "https://graph.facebook.com/" + me.username + "/picture?size=small";
-                            string localPath50 = Path.Combine(Server.MapPath(Url.Content("~/Content/UserImages/")) + me.username +"50.jpg");
-
-                            Uri remoteImg50PathUri = new Uri(remoteImg50Path);
-                            WebRequest focia50 = WebRequest.Create(string.Format(remoteImg50Path, code));
-                            WebResponse odpfocia50 = focia50.GetResponse();
-                            String oo50 = odpfocia50.ResponseUri.AbsoluteUri;
-                            WebClient webClient50 = new WebClient();
-                            webClient.DownloadFile(oo50, localPath50);
-                        //50
-
-                       
-
-                       
-
                        
                         MembershipCreateStatus createStatus;
 
-                        MembershipUser newuser = Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
+                        MembershipUser newuser = Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
                         
-                        UserData userdata = new UserData();
-                        userdata.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        userdata.MembershipUser = newuser;
-                        userdata.Name = me.first_name;
-                        userdata.Surname = me.last_name;
+                        UserData ud = new UserData();
+                        ud.MembershipUser = newuser;
+                        ud.MembershipUserID = (Guid)newuser.ProviderUserKey;
+                        if((ud.Name = me.first_name) == null)
+                            ud.Name = "";
+                        if ((ud.Surname = me.last_name) == null)
+                            ud.Surname = "";
+                        db.UserDatas.Add(ud);
+                        db.SaveChanges();
                         //userdata.ProfilePhotoLink = "";
                         
-                        Roles.AddUserToRole(model.Email, "User");
-                        
-
-
-
-                        // powiązanie fot z userem
-                        //50
-                        var entity50 = new PhotolifeEntities();
-                        var photo50 = new Photo();
-                        photo50.prefix = localPath50;
-                        photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        photo50.MembershipUser = newuser;
-                        entity50.Photos.Add(photo50);
-                       // entity50.SaveChanges();
-                       // photo50.SaveChanges();
-                        
-                        //big
-                        var entitybig = new PhotolifeEntities();
-                        var photobig = new Photo();
-                        photobig.prefix = localPath;
-                        photobig.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        photobig.MembershipUser = newuser;
-                        entitybig.Photos.Add(photobig);
-                      //  entitybig.SaveChanges();
-                      //  photobig.SaveChanges();
-
+                        if(Roles.RoleExists("User") == true
+                            && Roles.IsUserInRole(newuser.UserName, "User") == false)
+                            Roles.AddUserToRole(model.Login, "User");
 
                         if (createStatus == MembershipCreateStatus.Success)
                         {
-                            FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
+                            FormsAuthentication.SetAuthCookie(model.Login, false /* createPersistentCookie */);
                             return RedirectToAction("FacebookCreateSuccess");
                         }
                     }
@@ -238,7 +209,7 @@ namespace Photolife.Controllers
         {
             if (ModelState.IsValid)
             {
-                string username = model.EmailOrLogin;
+                string username = model.EmailOrLogin.ToLower();
                 if (Membership.FindUsersByEmail(model.EmailOrLogin).Count > 0)
                 {
                     username = Membership.GetUserNameByEmail(model.EmailOrLogin);
@@ -295,6 +266,8 @@ namespace Photolife.Controllers
             if (!ModelState.IsValid)
             { ModelState.AddModelError("", "Złe dane"); ok = false; }
             {
+                model.Email = model.Email.ToLower();
+                model.Login = model.Login.ToLower();
                 if (!ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
                 { ModelState.AddModelError("", "Błędnie przepisany kod captcha"); ok = false; }
                 if (Membership.FindUsersByEmail(model.Email).Count != 0)
@@ -305,12 +278,21 @@ namespace Photolife.Controllers
                 {
                     // Attempt to register the user
                     MembershipCreateStatus createStatus;
-                    Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
+                    MembershipUser user = Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
                     Roles.AddUserToRole(model.Login, "User");
+
+                    UserData ud = new UserData();
+                    ud.MembershipUser = user;
+                    ud.MembershipUserID = (Guid)user.ProviderUserKey;
+                    ud.Name = "";
+                    ud.Surname = "";
+                    db.UserDatas.Add(ud);
+                    db.SaveChanges();
+                    
 
                     if (createStatus == MembershipCreateStatus.Success)
                     {
-                        FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
+                        FormsAuthentication.SetAuthCookie(model.Login, false /* createPersistentCookie */);
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -327,6 +309,7 @@ namespace Photolife.Controllers
         //
         // GET: /Account/ChangePassword
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         [Authorize]
         public ActionResult ChangePassword()
         {
@@ -336,19 +319,19 @@ namespace Photolife.Controllers
         //
         // POST: /Account/ChangePassword
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         [Authorize]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             if (ModelState.IsValid)
             {
-
                 // ChangePassword will throw an exception rather
                 // than return false in certain failure scenarios.
                 bool changePasswordSucceeded;
                 try
                 {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
+                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name.ToLower(), true /* userIsOnline */);
                     changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
                 }
                 catch (Exception)
@@ -373,6 +356,7 @@ namespace Photolife.Controllers
         //
         // GET: /Account/ChangePasswordSuccess
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ChangePasswordSuccess()
         {
             return View();
@@ -381,38 +365,42 @@ namespace Photolife.Controllers
         //
         // GET: /Account/ChangeEmail
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         [Authorize]
         public ActionResult ChangeEmail()
         {
+            ViewBag.Email = Membership.GetUser().Email.ToLower();
             return View();
         }
 
         //
         // POST: /Account/ChangeEmail
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         [Authorize]
         [HttpPost]
         public ActionResult ChangeEmail(ChangeEmailModel model)
         {
             if (ModelState.IsValid)
             {
-
+                model.Email = model.Email.ToLower();
                 // ChangePassword will throw an exception rather
                 // than return false in certain failure scenarios.
                 bool changePasswordSucceeded = true;
                 if (Membership.FindUsersByEmail(model.Email).Count != 0) changePasswordSucceeded = false;
                 try
                 {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
+                    MembershipUser currentUser = Membership.GetUser();
                     currentUser.Email = model.Email;
                     Membership.UpdateUser(currentUser);
+
                 }
                 catch (Exception)
                 {
                     changePasswordSucceeded = false;
                 }
 
-                if (changePasswordSucceeded)
+                if (changePasswordSucceeded == true)
                 {
                     return RedirectToAction("ChangeEmailSuccess");
                 }
@@ -429,24 +417,30 @@ namespace Photolife.Controllers
         //
         // GET: /Account/ChangeEmailSuccess
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ChangeEmailSuccess()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ResetPassword()
         {
             return View();
         }
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         [HttpPost]
         public ActionResult ResetPassword(ResetPasswordModel model)
         {
             if (ModelState.IsValid)
             {
+                model.Email = model.Email.ToLower();
+                model.Login = model.Login.ToLower();
                 MembershipUser user;
                 if (Membership.FindUsersByEmail(model.Email).Count == 1 &&
                     (user = Membership.GetUser(Membership.GetUserNameByEmail(model.Email))) != null
+                    && user.UserName == model.Login
                     && ReCaptcha.Validate(privateKey: "6LcNtc8SAAAAABTcliRjCCdZyFuMyjy4TmR2S0OZ"))
                 {
                     string password = user.ResetPassword();
@@ -475,17 +469,18 @@ namespace Photolife.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Nie istnieje użytkownik z takim e-mailem.");
+                    ModelState.AddModelError("", "Nie istnieje użytkownik z takim loginem i e-mailem.");
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Nie istnieje użytkownik z takim e-mailem.");
+                ModelState.AddModelError("", "Nie istnieje użytkownik z takim loginem i e-mailem.");
             }
 
             return View();
         }
 
+        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ResetPasswordSuccess()
         {
             return View();
