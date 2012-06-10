@@ -185,22 +185,22 @@ namespace Photolife.Controllers
 
                         // powiązanie fot z userem
                         //50
-                        var entity50 = new PhotolifeEntities();
+                       // var entity50 = new PhotolifeEntities();
                         var photo50 = new Photo();
                         photo50.prefix = localPath50;
                         photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
                         photo50.MembershipUser = newuser;
-                        entity50.Photos.Add(photo50);
+                      //  entity50.Photos.Add(photo50);
                        // entity50.SaveChanges();
                        // photo50.SaveChanges();
                         
                         //big
-                        var entitybig = new PhotolifeEntities();
+                      //  var entitybig = new PhotolifeEntities();
                         var photobig = new Photo();
                         photobig.prefix = localPath;
                         photobig.MembershipUserID = (Guid)newuser.ProviderUserKey;
                         photobig.MembershipUser = newuser;
-                        entitybig.Photos.Add(photobig);
+                      //  entitybig.Photos.Add(photobig);
                       //  entitybig.SaveChanges();
                       //  photobig.SaveChanges();
 
