@@ -1,4 +1,4 @@
-﻿@model Photolife.Models.Friendship
+﻿@model Photolife.Models.AddingFriend
 
 @{
     ViewBag.Title = "Create";
@@ -18,7 +18,7 @@
             @Html.LabelFor(model => model.UserFriend)
         </div>
         <div class="editor-field">
-            @Html.DropDownList("UserFriend", String.Empty)
+            @Html.DropDownList("UserFriend")
             @Html.ValidationMessageFor(model => model.UserFriend)
         </div>
 
