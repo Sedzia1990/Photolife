@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Photolife.Models.Photo>
+@{
     //ViewBag.Title = "Strona główna";
 }
 
@@ -67,74 +68,90 @@
 
 
 <div class="homeCenter">
-    <section class="banner">
-         <img src="@Url.Content("~/Content/img/baner.png")" />
-    </section>
 
-    <section class="shadowB homeCenter">
+    <section class="shadowB">
         <div class="top"></div>
         <div class="bg">
-             <section class="darkRed searchFriends">
-                <h2>SZUKAJ ZNAJOMYCH</h2>
-                <div class="line" style="margin-top: 2px"></div>
-                <br />
-                @using (Html.BeginForm("Index", "Friends", FormMethod.Post, new { enctype = "multipart/form-data" })) {
-                    @Html.ValidationSummary(true)
-                    <input type="text" placeholder="Szukaj znajomych" />
-                
-                    <input type="submit" value="Szukaj" style="margin-left: 10px" />
-                }
-            
-                <div class="clearer"></div>
-            </section>
+             <h2 class="nav"><a href="#">@ViewBag.user.UserName</a> :: Zdjęcia</h2>
+             <div class="line2" style="width: 90%"></div>
 
-            <section class="darkRed bestPhotos">
-                <h2>NAJLEPSZE ZDJĘCIA</h2>
-                 <div class="line" style="margin-bottom: 10px; margin-top: 2px;"></div>
-                
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <br />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-
-                <br />
-                <a href="#">
-                    <img src="@Url.Content("~/Content/img/buttons/przegladaj.png")" class="browse hoverable" alt="Przeglądaj" />
-                </a>
-                
-               
-                <div class="clearer"></div>
+            <section class="red photoList">
+                <div class="top"></div>
+                <div class="content">
+                    <div class="image">
+                        <a href="#" class="info"></a>
+                        <a href="#" class="zoom"></a>
+                        <img src="@Url.Content("~/Content/img/example/100.png")" alt="Zdjęcie" />
+                    </div>
+                    <div class="imageInfo">
+                        <span class="left">Dodane:</span>
+                        <span class="right">4 dni temu</span>
+                        <br />
+                        <span class="left">Ocena:</span>
+                        <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
+                        <br />
+                        <span class="left">Komentarze:</span>
+                        <span class="right">22</span>
+                        <br />
+                        <span class="left">Wyświetlenia:</span>
+                        <span class="right">323</span>
+                    </div>
+                </div>
+                <div class="bot"></div>
             </section>
        
-           <section class="darkRed bestPhotos">
-                <h2>NAJNOWSZE ZDJĘCIA</h2>
-                <div class="line" style="margin-bottom: 10px; margin-top: 2px;"></div>
-
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <br />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-                <img src="@Url.Content("~/Content/img/exampleAvatar60.png")" class="avatar" />
-
-                <br />
-                <a href="#">
-                    <img src="@Url.Content("~/Content/img/buttons/przegladaj.png")" class="browse hoverable" alt="Przeglądaj" />
-                </a>
-                <div class="clearer"></div>
+            <section class="red photoList">
+                <div class="top"></div>
+                <div class="content">
+                    <div class="image">
+                        <a href="#" class="info"></a>
+                        <a href="#" class="zoom"></a>
+                        <img src="@Url.Content("~/Content/img/example/100.png")" alt="Zdjęcie" />
+                    </div>
+                    <div class="imageInfo">
+                        <span class="left">Dodane:</span>
+                        <span class="right">4 dni temu</span>
+                        <br />
+                        <span class="left">Ocena:</span>
+                        <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
+                        <br />
+                        <span class="left">Komentarze:</span>
+                        <span class="right">22</span>
+                        <br />
+                        <span class="left">Wyświetlenia:</span>
+                        <span class="right">323</span>
+                    </div>
+                </div>
+                <div class="bot"></div>
             </section>
+
+            <section class="red photoList">
+                <div class="top"></div>
+                <div class="content">
+                    <div class="image">
+                        <a href="#" class="info"></a>
+                        <a href="#" class="zoom"></a>
+                        <img src="@Url.Content("~/Content/img/example/100.png")" alt="Zdjęcie" />
+                    </div>
+                    <div class="imageInfo">
+                        <span class="left">Dodane:</span>
+                        <span class="right">4 dni temu</span>
+                        <br />
+                        <span class="left">Ocena:</span>
+                        <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
+                        <br />
+                        <span class="left">Komentarze:</span>
+                        <span class="right">22</span>
+                        <br />
+                        <span class="left">Wyświetlenia:</span>
+                        <span class="right">323</span>
+                    </div>
+                </div>
+                <div class="bot"></div>
+            </section>
+            <div class="center">
+                <a class="button" href="#">Wczytaj pozostałe</a>
+            </div>
         </div>
         <div class="bot"></div>
     </section>

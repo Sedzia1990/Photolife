@@ -84,9 +84,7 @@
     <Compile Include="Controllers\LiveMessagesController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
-
     <Compile Include="Models\PhotoVote.cs" />
-
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\CustomizeAttribute.cs" />
     <Compile Include="Models\Friendship.cs" />
@@ -262,6 +260,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\ChangeEmailSuccess.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Photo\List.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

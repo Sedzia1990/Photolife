@@ -18,12 +18,21 @@ namespace Photolife.Controllers
     {
         private PhotolifeEntities db = new PhotolifeEntities();
 
+        public ViewResult List(string username)
+        {
+            MembershipUser user = Membership.GetUser(username);
+            Guid guid = (Guid) user.ProviderUserKey;
+            ViewBag.user = user;
+            return View(db.Photos.Where(p => p.MembershipUserID == guid));
+        }
+
         //
         // GET: /Photo/
 
         public ViewResult Index()
         {
-            return View(db.Photos.ToList());
+            Guid guid = (Guid) Membership.GetUser().ProviderUserKey;
+            return View(db.Photos.Where(p => p.MembershipUserID == guid));
         }
 
         //
@@ -32,6 +41,8 @@ namespace Photolife.Controllers
         public ViewResult Details(int id)
         {
             Photo photo = db.Photos.Find(id);
+            MembershipUser user = Membership.GetUser(photo.MembershipUserID);
+            ViewBag.user = user;
             return View(photo);
         }
 
@@ -76,8 +87,7 @@ namespace Photolife.Controllers
             // save to db
             var photo = new Photo();
             photo.prefix = fileName;
-           // photo.MembershipUserID = (Guid)Membership.GetUser().ProviderUserKey;
-            photo.MembershipUser = Membership.GetUser();
+            photo.MembershipUserID = (Guid) Membership.GetUser().ProviderUserKey;
             db.Photos.Add(photo);
             db.SaveChanges();
 
