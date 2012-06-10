@@ -37,8 +37,8 @@ namespace Photolife.Controllers
             {
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
-                    && o.UserFriend == invitation.User).Count() > 0) ;
-                else invites.Add(invitation.User);
+                    && o.UserFriend == invitation.User).Count() == 0)
+                    invites.Add(invitation.User);
             }
             ViewBag.Invites = invites;
 
@@ -48,8 +48,8 @@ namespace Photolife.Controllers
             {
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
-                    && o.UserFriend == invitation.User).Count() > 0) ;
-                else urinvites.Add(invitation.UserFriend);
+                    && o.UserFriend == invitation.User).Count() == 0)
+                    urinvites.Add(invitation.UserFriend);
             }
             ViewBag.UrInvites = urinvites;
             return View();

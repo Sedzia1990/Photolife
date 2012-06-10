@@ -19,6 +19,14 @@
             <legend>Nowe konto</legend>
 
             <div class="editor-label">
+                @Html.LabelFor(m => m.Login)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Login)
+                @Html.ValidationMessageFor(m => m.Login)
+            </div>
+
+            <div class="editor-label">
                 @Html.LabelFor(m => m.Email)
             </div>
             <div class="editor-field">

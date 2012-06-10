@@ -93,7 +93,7 @@ namespace Photolife.Controllers
 
             string email = me.email;
             
-                if (Membership.FindUsersByEmail(email).Count >= 1)
+                if (Membership.FindUsersByEmail(email).Count == 1)
                 {
 
                     FormsAuthentication.SetAuthCookie(email, false /* createPersistentCookie */);
@@ -129,6 +129,7 @@ namespace Photolife.Controllers
                             System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
                         }
 
+<<<<<<< HEAD
                         //string profileFoto = "https://graph.facebook.com/" + me.username + "/picture";
 
                             // Ściągniecie avatara z fejsa do photolife
@@ -145,15 +146,27 @@ namespace Photolife.Controllers
                             WebClient webClient = new WebClient();
                             webClient.DownloadFile(oo, localPath);
                        
+=======
+                        string profileFoto = "https://graph.facebook.com/" + me.username + "/picture";
+
+>>>>>>> e2c90ac3ee6ab863008e5a75867a357397432a75
                         MembershipCreateStatus createStatus;
 
                         MembershipUser newuser = Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
                         
+<<<<<<< HEAD
                         UserData userdata = new UserData();
                         userdata.MembershipUserID = (Guid)newuser.ProviderUserKey;
                         userdata.MembershipUser = newuser;
                         userdata.Name = me.name;
                         userdata.Surname = me.lastname;
+=======
+                        //UserData userdata = new UserData();
+                        //userdata.MembershipUserID = (Guid)newuser.ProviderUserKey;
+                        //userdata.MembershipUser = newuser;
+                        //userdata.Name = "";
+                        //userdata.Surname = "";
+>>>>>>> e2c90ac3ee6ab863008e5a75867a357397432a75
                         //userdata.ProfilePhotoLink = "";
                         
                         Roles.AddUserToRole(model.Email, "User");
@@ -165,7 +178,6 @@ namespace Photolife.Controllers
                         }
                     }
                 }
-
             
 
            // return View();

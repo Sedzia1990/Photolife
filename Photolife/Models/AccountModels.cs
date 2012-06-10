@@ -7,7 +7,6 @@ using System.Web.Security;
 
 namespace Photolife.Models
 {
-
     public class ChangePasswordModel
     {
         [Required]
@@ -27,11 +26,24 @@ namespace Photolife.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeEmailModel
+    {
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Aktualne hasło")]
+        public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "To pole jest wymagane.")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Adres e-mail")]
+        public string Email { get; set; }
+    }
+
     public class LogOnModel
     {
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Login lub Email")]
+        public string EmailOrLogin { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -44,6 +56,10 @@ namespace Photolife.Models
 
     public class RegisterModel
     {
+        [Required(ErrorMessage = "To pole jest wymagane.")]
+        [Display(Name = "Login")]
+        public string Login { get; set; }
+
         [Required(ErrorMessage = "To pole jest wymagane.")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Adres e-mail")]
