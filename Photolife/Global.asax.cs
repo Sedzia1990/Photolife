@@ -37,7 +37,7 @@ namespace Photolife
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            System.Data.Entity.Database.SetInitializer(new Photolife.Models.DataInitalizer());
+           
         }
     }
 }

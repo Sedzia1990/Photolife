@@ -5,10 +5,7 @@ namespace Photolife.Models
     public class PhotolifeEntities : DbContext
     {
 
-        public PhotolifeEntities() {
-
-             System.Data.Entity.Database.SetInitializer(new Photolife.Models.DataInitalizer());
-        }
+        
         // wrzucamy tutaj tworzone bazy danych
 
         public DbSet<Message> Message { get; set; }
