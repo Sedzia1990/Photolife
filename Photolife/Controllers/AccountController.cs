@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -202,7 +202,11 @@ namespace Photolife.Controllers
                             ud.LastName = "";
                         db.UserDatas.Add(ud);
                         db.SaveChanges();
-                        //userdata.ProfilePhotoLink = "";
+
+                        if (Roles.RoleExists("User") == false)
+                            Roles.CreateRole("User");
+                        if(Roles.IsUserInRole(newuser.UserName, "User") == false)
+                            Roles.AddUserToRole(model.Login, "User");
 
 
                         // powiązanie fot z userem
@@ -225,10 +229,6 @@ namespace Photolife.Controllers
                         entitybig.Photos.Add(photobig);
                         // entitybig.SaveChanges();
                         // photobig.SaveChanges();
-                        
-                        if(Roles.RoleExists("User") == true
-                            && Roles.IsUserInRole(newuser.UserName, "User") == false)
-                            Roles.AddUserToRole(model.Login, "User");
 
                         if (createStatus == MembershipCreateStatus.Success)
                         {
@@ -333,7 +333,11 @@ namespace Photolife.Controllers
                     // Attempt to register the user
                     MembershipCreateStatus createStatus;
                     MembershipUser user = Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
-                    Roles.AddUserToRole(model.Login, "User");
+
+                    if (Roles.RoleExists("User") == false)
+                        Roles.CreateRole("User");
+                    if (Roles.IsUserInRole(model.Login, "User") == false)
+                        Roles.AddUserToRole(model.Login, "User");
 
                     UserData ud = new UserData();
                     ud.MembershipUserID = (Guid)user.ProviderUserKey;
