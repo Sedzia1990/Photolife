@@ -138,6 +138,7 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Controllers\jquery.lightbox-0.5.css" />
     <Content Include="Global.asax" />
     <Content Include="Release Notes - Microsoft.Web.Helpers.txt" />
     <Content Include="Scripts\global.js" />
@@ -148,7 +149,11 @@
     <Content Include="Scripts\jquery-ui-1.8.11.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
     <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.json.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.min.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.pack.js" />
     <Content Include="Scripts\jquery.rating.pack.js" />
     <Content Include="Scripts\jquery.toastmessage.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
