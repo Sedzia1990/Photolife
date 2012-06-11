@@ -1,9 +1,182 @@
 ﻿@model Photolife.Models.Photo
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Zdjęcie";
 }
+<section class="shadowA lastActive">
+    <div class="top"></div>
+   
+  
+    <div class="bg">
+        <h2>Ostatnio aktywni</h2>
+        <img src="@Url.Content("~/Content/img/hrD.png")" class="hrD" alt="" />
 
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="@Url.Action("Details", "Photo")">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    PUser x <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+    </div>
+     <div class="bot"></div>
+</section>
+<div class="homeCenter">
+    <section class="shadowB">
+        <div class="top"></div>
+        <div class="bg">
+             <h2 class="nav"><a href="#">@ViewBag.user.UserName</a> :: Zdjęcia :: Szczegóły</h2>
+             <div class="line2" style="width: 90%"></div>
+
+             <div class="img_shadow photoDetails">
+                <div class="top"></div>
+                <div class="bg">
+                    <a href="#" class="zoom"></a>
+                    <a href="#" class="prev"></a>
+                    <a href="#" class="next"></a>
+                    <img src="@Url.Content(Model.FilePath450width)" class="addthis_shareable photo" alt="Zdjęcie"  />
+                   
+                </div>
+                <div class="bot"></div>
+             </div>
+            <h2>Dodał: @ViewBag.user.Email</h2>
+            <span style="font-size: 20px">
+                <b style="font-size: 25px">Opis: </b> <span id="description">@Model.description</span>
+                @if (Model.description != null && Model.description.Length != 0)
+                {
+                    <small><br /><a href="#" id="editLink">Edytuj opis</a></small>
+                }
+                else
+                {
+                    <small><br /><a href="#" id="addLink">Dodaj opis</a></small>
+                }
+                @using (Html.BeginForm("EditDescription", "Photo", new { id = Model.PhotoID }, FormMethod.Post, new { style = "display: none", id = "descriptionForm" }))
+                {
+                    <textarea name="description">@Model.description</textarea>
+                    <input type="submit" value="Zapisz opis" />
+                }
+            </span>
+            <br /><br />
+            
+            @using (Html.BeginForm("Rate", "Photo", new { id = Model.PhotoID }, FormMethod.Post, new { id = "rateForm" }))
+            {
+                <div>
+                    <input name="star1" type="radio" class="star" value="1"/>
+                    <input name="star1" type="radio" class="star" value="2"/>
+                    <input name="star1" type="radio" class="star" value="3"/>
+                    <input name="star1" type="radio" class="star" value="4"/>
+                    <input name="star1" type="radio" class="star" value="5"/>
+                </div>
+            }
+
+
+        </div>
+        <div class="bot"></div>
+    </section>
+</div>
+<section class="shadowA newestPhotos">
+    <div class="top"></div>
+    <div class="bg">
+        <h2>Nowe zdjęcia</h2>
+        <img src="@Url.Content("~/Content/img/hrD.png")" class="hrD" alt="" />
+
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    PUser x <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+    </div>
+     <div class="bot"></div>
+</section>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -58,34 +231,4 @@
 
     })
 
-  
-
 </script>
-TODO: walidacja
-<h2>Dodał: @ViewBag.user.Email</h2>
-<span style="font-size: 20px">
-    <b style="font-size: 25px">Opis: </b> <span id="description">@Model.description</span>
-    @if(Model.description != null && Model.description.Length != 0) {
-        <small><br /><a href="#" id="editLink">Edytuj opis</a></small>
-    }
-    else {
-        <small><br /><a href="#" id="addLink">Dodaj opis</a></small>
-    }
-    @using (Html.BeginForm("EditDescription", "Photo",  new { id = Model.PhotoID }, FormMethod.Post, new { style = "display: none", id="descriptionForm" }))
-    {
-        <textarea name="description">@Model.description</textarea>
-        <input type="submit" value="Zapisz opis" />
-    }
-</span>
-<br /><br />
-<img src="@Url.Content(Model.FilePath200)" class="addthis_shareable" alt="Zdjęcie" />
-@using (Html.BeginForm("Rate", "Photo",  new { id = Model.PhotoID }, FormMethod.Post, new { id="rateForm" }))
-{
-    <div>
-        <input name="star1" type="radio" class="star" value="1"/>
-        <input name="star1" type="radio" class="star" value="2"/>
-        <input name="star1" type="radio" class="star" value="3"/>
-        <input name="star1" type="radio" class="star" value="4"/>
-        <input name="star1" type="radio" class="star" value="5"/>
-    </div>
-}

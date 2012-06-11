@@ -21,7 +21,7 @@ namespace Photolife.Controllers
         public ViewResult List(string username)
         {
             MembershipUser user = Membership.GetUser(username);
-            Guid guid = (Guid) user.ProviderUserKey;
+            Guid guid = (Guid)user.ProviderUserKey;
             ViewBag.user = user;
             return View(db.Photos.Where(p => p.MembershipUserID == guid));
         }
@@ -31,7 +31,7 @@ namespace Photolife.Controllers
 
         public ViewResult Index()
         {
-            Guid guid = (Guid) Membership.GetUser().ProviderUserKey;
+            Guid guid = (Guid)Membership.GetUser().ProviderUserKey;
             return View(db.Photos.Where(p => p.MembershipUserID == guid));
         }
 
@@ -65,8 +65,8 @@ namespace Photolife.Controllers
 
             if (imageFile == null || imageFile.ContentLength == 0)
             {
-               
-                json.Data = new {status = "no_file"};
+
+                json.Data = new { status = "no_file" };
                 return json;
             }
 
@@ -79,19 +79,20 @@ namespace Photolife.Controllers
             var oryginalImage = Image.FromFile(imagePath + ".jpg");
             var Image800 = ResizeImage(oryginalImage, 600, 800);
             var image200 = ResizeImage(oryginalImage, 200, 200);
-
+            var image450width = ResizeImage(oryginalImage, 450, -1);
             // save to 
             Image800.Save(imagePath + "_800.jpg");
             image200.Save(imagePath + "_200.jpg");
+            image450width.Save(imagePath + "_450width.jpg");
 
             // save to db
             var photo = new Photo();
             photo.prefix = fileName;
-            photo.MembershipUserID = (Guid) Membership.GetUser().ProviderUserKey;
+            photo.MembershipUserID = (Guid)Membership.GetUser().ProviderUserKey;
             db.Photos.Add(photo);
             db.SaveChanges();
 
-            json.Data = new {status = "ok", redirect = Url.Action("Details", "Photo", new { id=photo.PhotoID.ToString()}) };
+            json.Data = new { status = "ok", redirect = Url.Action("Details", "Photo", new { id = photo.PhotoID.ToString() }) };
             return json;
         }
 
@@ -101,17 +102,31 @@ namespace Photolife.Controllers
             Bitmap originalImage = new Bitmap(image);
             int newWidth = originalImage.Width;
             int newHeight = originalImage.Height;
-            double aspectRatio = (double)originalImage.Width / (double)originalImage.Height;
 
-            if (aspectRatio <= 1 && originalImage.Width > maxWidth)
+
+            if (maxHeight == -1)
             {
                 newWidth = maxWidth;
-                newHeight = (int)Math.Round(newWidth / aspectRatio);
+                newHeight = (int)((double)originalImage.Height * (double)((double)newWidth / (double)originalImage.Width));
             }
-            else if (aspectRatio > 1 && originalImage.Height > maxHeight)
+            else if (maxHeight == -1)
             {
                 newHeight = maxHeight;
-                newWidth = (int)Math.Round(newHeight * aspectRatio);
+                newWidth = (int)((double)originalImage.Width * (double)((double)newHeight / (double)originalImage.Height));
+            }
+            else
+            {
+                double aspectRatio = (double)originalImage.Width / (double)originalImage.Height;
+                if (aspectRatio <= 1 && originalImage.Width > maxWidth)
+                {
+                    newWidth = maxWidth;
+                    newHeight = (int)Math.Round(newWidth / aspectRatio);
+                }
+                else if (aspectRatio > 1 && originalImage.Height > maxHeight)
+                {
+                    newHeight = maxHeight;
+                    newWidth = (int)Math.Round(newHeight * aspectRatio);
+                }
             }
 
             Bitmap newImage = new Bitmap(originalImage, newWidth, newHeight);
