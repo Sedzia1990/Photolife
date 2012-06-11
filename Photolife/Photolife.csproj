@@ -91,7 +91,6 @@
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\PhotolifeEntities.cs" />
-    <Compile Include="Models\DataInitalizer.cs" />
     <Compile Include="NowaKlasa.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
