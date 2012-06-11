@@ -27,6 +27,17 @@ namespace Photolife.Controllers
             return View(UserData);
         }
 
+        public ActionResult UserData(string user)
+        {
+            MembershipUser founduser = Membership.GetUser(user);
+            if (founduser == null)
+                return RedirectToAction("Index");
+
+            var UserData = db.UserDatas.First(o => o.MembershipUserID == (Guid)founduser.ProviderUserKey);
+            ViewBag.UserDataName = founduser.UserName;
+            return View(UserData);
+        }
+
         public ActionResult EditData()
         {
             Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
