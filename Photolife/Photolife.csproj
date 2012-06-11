@@ -10,8 +10,8 @@
     <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PZ</RootNamespace>
-    <AssemblyName>PZ</AssemblyName>
+    <RootNamespace>Photolife</RootNamespace>
+    <AssemblyName>Photolife</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
@@ -84,18 +84,14 @@
     <Compile Include="Controllers\LiveMessagesController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\PhotoVote.cs" />
-=======
-    <Compile Include="Controllers\UserDataController.cs" />
->>>>>>> 234af94d8b706b4b40775b792b65c129190d34f2
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\CustomizeAttribute.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\PhotolifeEntities.cs" />
-    <Compile Include="Models\SampleData.cs" />
+    <Compile Include="Models\DataInitalizer.cs" />
     <Compile Include="NowaKlasa.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -105,7 +101,6 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Views\Account\EditData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jquery.toastmessage.css" />
