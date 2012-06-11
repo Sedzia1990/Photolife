@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Threading;
 using Photolife.Models;
 
-namespace PZ.Controllers
+namespace Photolife.Controllers
 {
     public class LiveMessagesController : Controller
     {
