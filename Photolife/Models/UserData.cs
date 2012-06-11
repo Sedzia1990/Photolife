@@ -10,6 +10,8 @@ namespace Photolife.Models
 {
     public class UserData
     {
+        [Key]
+
         public int UserDataId { get; set; }
 
         public Guid MembershipUserID { get; set; }

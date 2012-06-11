@@ -211,7 +211,7 @@ namespace Photolife.Controllers
                         var photo50 = new Photo();
                         photo50.prefix = localPath50;
                         photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        photo50.MembershipUser = newuser;
+                      //  photo50.MembershipUser = newuser;
                         entity50.Photos.Add(photo50);
                         // entity50.SaveChanges();
                         // photo50.SaveChanges();
@@ -221,7 +221,7 @@ namespace Photolife.Controllers
                         var photobig = new Photo();
                         photobig.prefix = localPath;
                         photobig.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        photobig.MembershipUser = newuser;
+                        //photobig.MembershipUser = newuser;
                         entitybig.Photos.Add(photobig);
                         // entitybig.SaveChanges();
                         // photobig.SaveChanges();
