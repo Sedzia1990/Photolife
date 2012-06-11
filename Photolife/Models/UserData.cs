@@ -10,12 +10,10 @@ namespace Photolife.Models
 {
     public class UserData
     {
-<<<<<<< HEAD
         [Key]
-=======
+
         public int UserDataId { get; set; }
 
->>>>>>> 234af94d8b706b4b40775b792b65c129190d34f2
         public Guid MembershipUserID { get; set; }
 
         [Display(Name="Imię")]

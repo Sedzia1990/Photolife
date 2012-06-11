@@ -17,7 +17,7 @@ namespace PZ.Controllers
             
             do
             {
-                json = getMessages();
+              //  json = getMessages();
                 Thread.Sleep(500);
                 
             }
@@ -28,21 +28,21 @@ namespace PZ.Controllers
             return json;
         }
 
-        protected JsonResult getMessages() {
+    //    protected JsonResult getMessages() {
 
-            JsonResult json = new JsonResult();
+         //   JsonResult json = new JsonResult();
 
-            IEnumerable<Message> messages = db.Message.Where(o => o.Odbiorca == User.Identity.Name);
+            //IEnumerable<Message> messages = db.Message.Where(o => o.Odbiorca == User.Identity.Name);
 
-            if (messages.LongCount() != 0) {
-                foreach(Message msg in messages) {
+          //  if (messages.LongCount() != 0) {
+          //      foreach(Message msg in messages) {
 
-                    json.Data = new {message = "Nowa wiadomość od użytkownika "+msg.Nadawca, link = Url.Action("Details", "Messages", new {id = msg.MessageId }) };
+           //         json.Data = new {message = "Nowa wiadomość od użytkownika "+msg.Nadawca, link = Url.Action("Details", "Messages", new {id = msg.MessageId }) };
 
-                }
-            }
-            return json;
-        }
+          //      }
+       //     }
+         ////   return json;
+      //  }
 
     }
 }
