@@ -6,34 +6,116 @@
     font-size: 12px;
     background-image: url('img/bg.png');
 }
-
+section 
+{
+    display: block;   
+}
 body div.page {
-   
     width: 960px;
     margin:  0 auto;
+}
+a img 
+{
+    border: none;
 }
 a {
     color: inherit;
     text-decoration: none;
 }
-header, #navBG  {
-    background-image: url('img/header_bg.png');
+h2 {
+    font-size: 18px;
+    color: #f4f4f4;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+h2.nav 
+{
+    font-family: Verdana;
+    font-size: 18px;
+    color: #fff2d9;   
+    font-weight: bold;
+    text-align: left;
+    padding: 0 0 0 26px;
+}
+h2.nav a 
+{
+    color: #f2c200;   
+}
+div.line2 
+{
+    width: 95%;
+    margin: 5px auto 20px auto;
+    background: url('img/line2.png');
+    height: 6px;   
+    
+}
+input
+{
+    background: url('img/input_bg.png');
+    height: 17px;
+    font-size: 12px;
+    padding: 1px 5px;
+    border: 1px #fae4cd solid;
+    border-radius: 2px;
+    color: #f0f0f0;
+}
+input[type=submit], input[type=button], a.button
+{   
+    background: url('img/submit_bg.png');
+    height: 21px;
+    border: 1px black solid;
+    cursor: pointer;
+    color: #f0f0f0;
+    vertical-align: top;
+    
+}
+a.button 
+{
+    display: inline-block;
+    padding: 2px 9px 0 9px;
+    height: 17px; 
+}
+a.button:hover
+{
+       
+    color: #fff;
+    border: 1px #fff solid;
+}
+input[type=submit]:hover, input[type=button]:hover
+{
+    color: #fff;
+    border: 1px #fff solid;
+}
+
+header  {
+    
     height:  82px;
     position: relative;
-    width: 748px;
+    width: 910px;
     float: right;
-    margin: 20px 0 0 0;
+    margin: 30px 0 0 0;
     font-size: 18px;
 }
-#navBG {
+div.center
+{
+    width: 100%;
+    text-align: center;   
+}
+#navBG 
+{
+    background-image: url('img/header_bg.png');
     position:  absolute;
-    right:  0;
-    width:  0;
+    width: 100%;
+    height: 82px;
+    margin-top: 30px;
 }
 h1#logo {
     position:  absolute;
     left: -195px;
-    top: -20px;
+    top: -30px;
     margin:  0;
     padding:  0;
     
@@ -60,38 +142,38 @@ nav ul li {
 }
 
 .roundA {
-    background: #fff3d9;
-    border-radius: 10px;    
+    background-image: url('img/10_bg.png');
+    border: 2px #dd000c solid;
+    border-radius: 10px;
 }
 
-h2 {
-    font-size: 18px;
-    color: #b80000;
-    font-weight: normal;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    width: 100%;
 
-}
 span.gray {
     color: #808080;
 }
-section.PhotolifePRO, section.newestPhotos {
+section.lastActive, section.newestPhotos {
     width: 172px;
     text-align: center;
     padding-bottom: 15px;
-    margin-top: 100px;
-    padding-top: 5px;
+    margin-top: 5px;
+    padding-top: 3px;
     float: left;
 }
-
-img.hrA, img.hrB {
+section.lastActive h2, section.newestPhotos h2  {
+    margin-bottom:-5px;   
+}
+section.lastActive > div.bg 
+{
+    padding-bottom: 10px;   
+}
+img.hrA, img.hrB, hrC, hrD {
     display:  block;
     margin: 5px auto 0 auto;
     width: 139px;
 }
-
+hrD  {
+    margin: 0 auto;
+}
 img.hrB {
     width: 406px;
 }
@@ -100,27 +182,71 @@ div.grayBG, section.grayBG {
     border-radius: 5px;
     padding: 5px;
 }
-section.PhotolifePRO div.user {
-    width: 115px;
+div.user {
+    width: 120px;
     margin: 15px auto 0 auto;
 }
-
+div.user div  {
+    width: 100%;
+}
+div.user div.bg {
+    background-image: url('img/user_bg.png');
+    padding-top: 3px;
+    color: #fff;
+}
+div.user div.top {
+    background-image: url('img/user_bg_top.png');
+    height: 9px;
+}
+div.user div.bot {
+    background-image: url('img/user_bg_bot.png');
+    height: 9px;
+}
+div.user div.bg img  {
+    margin-top: 3px;
+    opacity: 0.9;
+}
+div.user div.bg a:hover 
+{
+ text-decoration: underline;   
+}
+div.user div.bg a:hover img  {
+    margin-top: 3px;
+    opacity: 1;
+}
 section.banner {
     text-align: center;
     width: 100%;
+    
+}
+section.banner img {
+    
 }
 
 section.homeCenter {
-    height: 800px; 
     margin-top: 14px;
     width: 100%; 
     padding-top: 1px;
 }
+section.searchFriends {
+    width: 450px;
+    margin: 0 auto 0 auto;
+    border-radius: 8px;
+    text-align: center;
+    padding-bottom: 15px;
+    padding-top: 3px;
+}
+section.homeCenter > div.bg
+{
+    padding-top: 18px;   
+    padding-bottom: 20px;
+}
 section.bestPhotos {
-    width: 500px;
+    width: 450px;
     margin: 20px auto 0 auto;
     border-radius: 8px;
     text-align: center;
+    padding-top: 3px;
 }
 section.bestPhotos img.hrB {
         
@@ -135,21 +261,24 @@ section.bestPhotos img.browse {
 }
 section.homeCenter h2 {
     padding-top: 2px;
+    
 }
 section.newestPhotos {
     float: left;
-    height: 800px;
     margin-left: 14px;
 }
-
+section.newestPhotos > div.bg 
+{
+    height: 800px;   
+}
 div.homeCenter {
-    width: 588px;
+    width: 558px;
     float: left;
-    margin-left: 14px;
+    margin-left: 30px;
     margin-top: 14px;
 }
 footer {
-    margin-top: 40px;
+    margin-top: 10px;
     float: left;
     width: 100%;
     background: #fff3d9;
@@ -167,4 +296,174 @@ div.clearer {
     width: 100%;
     clear: both;
     float: none;   
+}
+.shadowA {
+   
+}
+.shadowA > div.top, .shadowA > div.bot, .shadowA > div.bg {
+    width: 186px;
+    height: 16px;
+}
+.shadowA > div.top {
+     background: url('img/shadow_a_top.png');
+}
+.shadowA > div.bot {
+     background: url('img/shadow_a_bot.png');
+}
+
+.shadowA > div.bg {
+    height: auto;
+    background: url('img/shadow_a_bg.png');
+}
+
+.shadowB {
+   
+}
+.shadowB > div.top, .shadowB > div.bot, .shadowB > div.bg {
+    width: 529px;
+    margin: 0 auto;
+}
+.shadowB > div.top {
+     background: url('img/shadow_b_top.png');
+     height: 18px;
+}
+.shadowB > div.bot {
+     background: url('img/shadow_b_bot.png');
+     height: 18px;
+}
+
+.shadowB > div.bg {
+    height: auto;
+    background: url('img/shadow_b_bg.png');
+}
+
+.darkRed 
+{
+    background: #a2000a;
+    border-radius: 5px;
+    width: 80%;
+    margin: 0 auto;
+    padding: 15px;
+}
+div.line 
+{
+    background: #ba4048;
+    height: 1px;
+    width: 90%;
+    margin: 0 auto;   
+}
+section.photoList 
+{
+    margin-bottom: 15px;   
+}
+section.photoList div.image 
+{
+    background: #5c0006;
+    padding: 3px;
+    border: 2px #fff2d9 solid;
+    display: inline-block;
+    border-radius: 5px;
+    position: relative;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+section.photoList div.image  img
+{
+    border: 1px #fff2d9 solid;
+    display: block;
+}
+section.photoList div.image a.info 
+{
+    position: absolute;
+    display: block;
+    width: 110px;
+    height: 60px;
+    bottom:-10px;
+    right: -10px;
+    background: url('img/info.png') no-repeat;
+    background-position: bottom right;
+    visibility: hidden;
+    opacity: 0.5;
+}
+section.photoList div.image:hover a.info 
+{
+    visibility: visible;   
+    
+}
+section.photoList div.image a.info:hover 
+{
+    visibility: visible;  
+    opacity: 0.9;
+}
+
+section.photoList div.image a.zoom 
+{
+    position: absolute;
+    display: block;
+    width: 110px;
+    height: 60px;
+    top:-10px;
+    left: -10px;
+    background: url('img/loupe1.png') no-repeat;
+    background-position: top left;
+    visibility: hidden;
+    opacity: 0.5;
+}
+section.photoList div.image:hover a.zoom 
+{
+    visibility: visible;   
+    
+}
+section.photoList div.image a.zoom:hover 
+{
+    visibility: visible;  
+    opacity: 0.9;
+}
+
+section.photoList div.imageInfo 
+{
+    vertical-align: top;
+    display: inline-block; 
+    line-height: 23px;
+    margin-top: 12px;
+}
+section.photoList div.imageInfo span.left 
+{
+    font-size: 12px;
+    color: #ededed;
+    width: 100px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 5px;
+    
+}
+
+section.photoList div.imageInfo span.right 
+{
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff2d9;
+}
+.red 
+{
+    width: 472px;   
+    margin: 0 auto;
+}
+.red div.top 
+{
+    height: 12px;
+    background: url('img/red_top.png');
+    width: 100%;   
+}
+.red div.bot 
+{
+    height: 12px;
+    background: url('img/red_bot.png');
+    width: 100%;   
+}
+.red div.content 
+{
+    background: #a2000a;
+    width: 100%;   
+    
 }

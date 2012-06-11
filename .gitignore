@@ -25,7 +25,11 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-Photolife/App_Data/aspnetdb_log.LDF
+<<<<<<< HEAD
+/Photolife/App_Data
+=======
 Photolife/App_Data/ASPNETDB.MDF
-Photolife/App_Data/aspnetdb_log.LDF
+Photolife/App_Data/ASPNETDB.MDF
 Photolife/App_Data/aspnetdb_log.ldf
+Photolife/App_Data/ASPNETDB.MDF
+>>>>>>> 234af94d8b706b4b40775b792b65c129190d34f2

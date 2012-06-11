@@ -24,13 +24,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Odbiorca)
+            @Membership.GetUser(item.Odbiorca).UserName
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Tytuł)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Treść)
+            @(item.Treść.Length>100?item.Treść.Substring(100):item.Treść)
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { id=item.MessageId }) |

@@ -10,14 +10,17 @@ namespace Photolife.Models
 {
     public class UserData
     {
+        [Key]
 
-        public int UserDataId { get; set; } 
+        public int UserDataId { get; set; }
+
         public Guid MembershipUserID { get; set; }
-        virtual public MembershipUser MembershipUser { get; set; }
 
-        public string Name { get; set; }
+        [Display(Name="Imię")]
+        public string FirstName { get; set; }
 
-        public string Surname { get; set; }
+        [Display(Name = "Nazwisko")]
+        public string LastName { get; set; }
 
         //public string ProfilePhotoLink { get; set; }
     }

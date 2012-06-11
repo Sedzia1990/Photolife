@@ -78,8 +78,12 @@ namespace Photolife.Models
     }
     public class ResetPasswordModel
     {
+        [Required(ErrorMessage = "To pole jest wymagane.")]
+        [Display(Name = "Login")]
+        public string Login { get; set; }
+
         [Required(ErrorMessage = "E-mail jest wymagany, aby przypomnieć hasło.")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Ciąg musi mieć postać adresu e-mail.")]
         public string Email { get; set; }
     }
     

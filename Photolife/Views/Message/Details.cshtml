@@ -11,12 +11,12 @@
 
     <div class="display-label">From</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Nadawca)
+        @Membership.GetUser(Model.Nadawca).UserName
     </div>
 
     <div class="display-label">To</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Odbiorca)
+        @Membership.GetUser(Model.Odbiorca).UserName
     </div>
 
     <div class="display-label">Title</div>

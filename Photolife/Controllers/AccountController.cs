@@ -12,6 +12,7 @@ using Facebook;
 using System.Net;
 using System.IO;
 using System.Text;
+using System.Data;
 
 namespace Photolife.Controllers
 {
@@ -21,7 +22,32 @@ namespace Photolife.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+            return View(UserData);
+        }
+
+        public ActionResult EditData()
+        {
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+            return View(UserData);
+        }
+
+        [HttpPost]
+        public ActionResult EditData(UserData model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+                UserData.FirstName = model.FirstName;
+                UserData.LastName = model.LastName;
+                db.Entry(UserData).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("EditData");
         }
 
         [HttpGet]
@@ -50,8 +76,6 @@ namespace Photolife.Controllers
 
             return View();
         }
-      //      return View();
-       // }
 
         public ActionResult Facebook()
         {
@@ -143,15 +167,6 @@ namespace Photolife.Controllers
                             System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
                         }
 
-                        //string profileFoto = "https://graph.facebook.com/" + me.username + "/picture";
-
-                        // Ściągniecie avatara z fejsa do photolife
-
-
-                        // string remoteImgPathWithoutQuery = remoteImgPathUri.GetLeftPart(UriPartial.Path);
-                        //string fileName = Path.GetFileName(remoteImgPathSmall);
-
-
                         // big
                         string remoteImgPathBig = "https://graph.facebook.com/" + me.username + "/picture?type=large";
                         Uri remoteImgPathUriBig = new Uri(remoteImgPathBig);
@@ -180,16 +195,15 @@ namespace Photolife.Controllers
                         MembershipUser newuser = Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
                         
                         UserData ud = new UserData();
-                        ud.MembershipUser = newuser;
                         ud.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        if((ud.Name = me.first_name) == null)
-                            ud.Name = "";
-                        if ((ud.Surname = me.last_name) == null)
-                            ud.Surname = "";
+                        if((ud.FirstName = me.first_name) == null)
+                            ud.FirstName = "";
+                        if ((ud.LastName = me.last_name) == null)
+                            ud.LastName = "";
                         db.UserDatas.Add(ud);
                         db.SaveChanges();
-                      
-                        
+                        db.SaveChanges();
+
                         if(Roles.RoleExists("User") == true
                             && Roles.IsUserInRole(newuser.UserName, "User") == false)
                             Roles.AddUserToRole(model.Login, "User");
@@ -200,7 +214,7 @@ namespace Photolife.Controllers
                         var photo50 = new Photo();
                         photo50.prefix = localPath50;
                         photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        photo50.MembershipUser = newuser;
+                      //  photo50.MembershipUser = newuser;
                         entity50.Photos.Add(photo50);
                         // entity50.SaveChanges();
                         // photo50.SaveChanges();
@@ -210,11 +224,14 @@ namespace Photolife.Controllers
                         var photobig = new Photo();
                         photobig.prefix = localPath;
                         photobig.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        photobig.MembershipUser = newuser;
+                        //photobig.MembershipUser = newuser;
                         entitybig.Photos.Add(photobig);
                         // entitybig.SaveChanges();
                         // photobig.SaveChanges();
-
+                        
+                        if(Roles.RoleExists("User") == true
+                            && Roles.IsUserInRole(newuser.UserName, "User") == false)
+                            Roles.AddUserToRole(model.Login, "User");
 
                         if (createStatus == MembershipCreateStatus.Success)
                         {
@@ -322,13 +339,13 @@ namespace Photolife.Controllers
                     Roles.AddUserToRole(model.Login, "User");
 
                     UserData ud = new UserData();
-                    ud.MembershipUser = user;
                     ud.MembershipUserID = (Guid)user.ProviderUserKey;
-                    ud.Name = "";
-                    ud.Surname = "";
+                    ud.FirstName = "";
+                    ud.LastName = "";
                     db.UserDatas.Add(ud);
                     db.SaveChanges();
                     
+
 
                     if (createStatus == MembershipCreateStatus.Success)
                     {
