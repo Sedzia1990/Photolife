@@ -11,7 +11,7 @@ namespace Photolife.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Aktualne hasło")]
+        [Display(Name = "Aktualne hasłoo")]
         public string OldPassword { get; set; }
 
         [Required]
