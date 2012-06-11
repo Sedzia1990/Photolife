@@ -84,7 +84,11 @@
     <Compile Include="Controllers\LiveMessagesController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\PhotoVote.cs" />
+=======
+    <Compile Include="Controllers\UserDataController.cs" />
+>>>>>>> 234af94d8b706b4b40775b792b65c129190d34f2
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\CustomizeAttribute.cs" />
     <Compile Include="Models\Friendship.cs" />
@@ -101,6 +105,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Views\Account\EditData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\jquery.toastmessage.css" />

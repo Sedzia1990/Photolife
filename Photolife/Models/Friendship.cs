@@ -12,8 +12,12 @@ namespace Photolife.Models
     {
         public int FriendshipID { get; set; }
 
-        public string User { get; set; }
+        public Guid User { get; set; }
 
+        public Guid UserFriend { get; set; }
+    }
+    public class AddingFriend
+    {
         public string UserFriend { get; set; }
     }
 }

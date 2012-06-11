@@ -20,36 +20,37 @@ namespace Photolife.Controllers
 
         public ViewResult Index()
         {
-            var friendships = db.Friendships.Where(o => o.User == User.Identity.Name);
+            Guid user = (Guid)Membership.GetUser().ProviderUserKey;
+            var friendships = db.Friendships.Where(o => o.User == user);
             List<string> friends = new List<string>();
             foreach (var invitation in friendships)
             {
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
                     && o.UserFriend == invitation.User).Count() > 0)
-                    friends.Add(invitation.UserFriend);
+                    friends.Add(Membership.GetUser(invitation.UserFriend).UserName);
             }
             ViewBag.Friends = friends;
 
-            var invitations = db.Friendships.Where(o => o.UserFriend == User.Identity.Name);
+            var invitations = db.Friendships.Where(o => o.UserFriend == user);
             List<string> invites = new List<string>();
             foreach (var invitation in invitations)
             {
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
                     && o.UserFriend == invitation.User).Count() == 0)
-                    invites.Add(invitation.User);
+                    invites.Add(Membership.GetUser(invitation.User).UserName);
             }
             ViewBag.Invites = invites;
 
-            var urinvitations = db.Friendships.Where(o => o.User == User.Identity.Name);
+            var urinvitations = db.Friendships.Where(o => o.User == user);
             List<string> urinvites = new List<string>();
             foreach (var invitation in urinvitations)
             {
                 if (db.Friendships.Where(
                     o => o.User == invitation.UserFriend
                     && o.UserFriend == invitation.User).Count() == 0)
-                    urinvites.Add(invitation.UserFriend);
+                    urinvites.Add(Membership.GetUser(invitation.UserFriend).UserName);
             }
             ViewBag.UrInvites = urinvites;
             return View();
@@ -63,11 +64,11 @@ namespace Photolife.Controllers
         {
             var users = Membership.GetAllUsers();
             List<SelectListItem> usernames = new List<SelectListItem>();
-
+            Guid user = (Guid)Membership.GetUser().ProviderUserKey;
             foreach (MembershipUser item in users)
             {
-                if (db.Friendships.Where(o => o.User == User.Identity.Name
-                    && o.UserFriend == item.UserName).Count() == 0)
+                if (db.Friendships.Where(o => o.User == user
+                    && o.UserFriend == (Guid)item.ProviderUserKey).Count() == 0)
                     usernames.Add(new SelectListItem
                     {
                         Text = item.UserName,
@@ -82,25 +83,29 @@ namespace Photolife.Controllers
         // POST: /Friends/Create
 
         [HttpPost]
-        public ActionResult Create(Friendship friendship)
+        public ActionResult Create(AddingFriend friend)
         {
-            if (ModelState.IsValid)
+            if (Membership.GetUser(friend.UserFriend) != null)
             {
-                friendship.User = User.Identity.Name;
-                db.Friendships.Add(friendship);
-                db.SaveChanges();
-                return RedirectToAction("Index");  
-            }
+                Friendship fs = new Friendship();
+                fs.User = (Guid)Membership.GetUser().ProviderUserKey;
+                fs.UserFriend = (Guid)Membership.GetUser(friend.UserFriend).ProviderUserKey;
 
-            return View(friendship);
+                db.Friendships.Add(fs);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+
+
+            return View();
         }
 
         public ActionResult Accept(string name)
         {
-            if (Membership.FindUsersByName(name) == null) return View();
+            if (Membership.GetUser(name) == null) return View();
             Friendship friendship = new Friendship();
-            friendship.User = User.Identity.Name;
-            friendship.UserFriend = name;
+            friendship.User = (Guid)Membership.GetUser().ProviderUserKey;
+            friendship.UserFriend = (Guid)Membership.GetUser(name).ProviderUserKey;
             db.Friendships.Add(friendship);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -117,9 +122,11 @@ namespace Photolife.Controllers
 
         public ActionResult DeleteByName(string name)
         {
+            Guid user = (Guid)Membership.GetUser().ProviderUserKey;
+            Guid userfriend = (Guid)Membership.GetUser(name).ProviderUserKey;
             var friendships = db.Friendships.Where(
-                o => o.User == User.Identity.Name &&
-                    o.UserFriend == name);
+                o => o.User == user &&
+                    o.UserFriend == userfriend);
 
             if (friendships.Count() > 0)
             {

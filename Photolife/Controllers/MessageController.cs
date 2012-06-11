@@ -26,12 +26,14 @@ namespace Photolife.Controllers
         
         public ViewResult InBox()
         {
-            return View(db.Message.Where(o => o.Odbiorca == User.Identity.Name));
+            Guid user = (Guid)Membership.GetUser().ProviderUserKey;
+            return View(db.Message.Where(o => o.Odbiorca == user));
         }
 
         public ViewResult OutBox()
         {
-            return View(db.Message.Where(o => o.Nadawca == User.Identity.Name));
+            Guid user = (Guid)Membership.GetUser().ProviderUserKey;
+            return View(db.Message.Where(o => o.Nadawca == user));
         }
 
         //
@@ -68,40 +70,21 @@ namespace Photolife.Controllers
         // POST: /Message/Create
 
         [HttpPost]
-        public ActionResult Create(Message message)
+        public ActionResult Create(AddingMessage message)
         {
             if (ModelState.IsValid)
             {
-                message.Nadawca = User.Identity.Name;
-                db.Message.Add(message);
+                Guid user = (Guid)Membership.GetUser().ProviderUserKey;
+                Message m = new Message();
+                m.Nadawca = user;
+                m.Odbiorca = (Guid)Membership.GetUser(message.Odbiorca).ProviderUserKey;
+                m.Treść = message.Treść;
+                m.Tytuł = message.Tytuł;
+                db.Message.Add(m);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(message);
-        }
-
-        //
-        // GET: /Message/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            Message message = db.Message.Find(id);
-            return View(message);
-        }
-
-        //
-        // POST: /Message/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(Message message)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
             return View(message);
         }
 
