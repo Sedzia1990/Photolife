@@ -1,0 +1,26 @@
+﻿@model Photolife.Models.UserData
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<fieldset>
+    <legend>Dane @ViewBag.UserDataName</legend>
+
+    <div class="display-label">
+        @Html.LabelFor(m => m.FirstName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(m => m.FirstName)
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(m => m.LastName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(m => m.LastName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Zmień dane osobiste", "EditData")
+</p>

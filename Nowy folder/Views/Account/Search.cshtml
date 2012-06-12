@@ -1,0 +1,38 @@
+﻿@model List<Photolife.Models.FoundUser>
+
+@{
+    ViewBag.Title = "Wyniki wyszukiwania";
+}
+
+<table>
+    <tr>
+        <th>
+            Login
+        </th>
+        <th>
+            Imię
+        </th>
+        <th>
+            Nazwisko
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Membership.GetUser(item.Login).UserName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.ActionLink("Pokaż", "UserData", new { user=item.Login })
+        </td>
+    </tr>
+}
+
+</table>

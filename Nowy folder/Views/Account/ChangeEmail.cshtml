@@ -1,0 +1,39 @@
+﻿@model Photolife.Models.ChangeEmailModel
+
+@{
+    ViewBag.Title = "Zmiana hasła";
+}
+
+<h2>Zmiana email</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true, "Wystąpił błąd. Spróbuj ponownie.")
+    <div>
+        <fieldset>
+            <legend>Dane konta</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(m => m.Email)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Email, new { Value = ViewBag.Email })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(m => m.OldPassword)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(m => m.OldPassword)
+                @Html.ValidationMessageFor(m => m.OldPassword)
+            </div>
+
+            <p>
+                <input type="submit" value="Zmień email!" />
+            </p>
+        </fieldset>
+    </div>
+}
