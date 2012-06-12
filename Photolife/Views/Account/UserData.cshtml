@@ -1,26 +1,235 @@
 ﻿@model Photolife.Models.UserData
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Profil użytkownika " + ViewBag.user.UserName;
 }
 
-<fieldset>
-    <legend>Dane @ViewBag.UserDataName</legend>
+<section class="shadowA lastActive">
+    <div class="top"></div>
+   
+  
+    <div class="bg">
+        <h2>Ostatnio aktywni</h2>
+        <img src="@Url.Content("~/Content/img/hrD.png")" class="hrD" alt="" />
 
-    <div class="display-label">
-        @Html.LabelFor(m => m.FirstName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(m => m.FirstName)
-    </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="@Url.Action("Details", "Photo")">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
 
-    <div class="display-label">
-        @Html.LabelFor(m => m.LastName)
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    PUser x <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(m => m.LastName)
+     <div class="bot"></div>
+</section>
+<div class="homeCenter">
+    <section class="shadowB">
+        <div class="top"></div>
+        <div class="bg">
+           <h2 class="nav"><a href="#">@ViewBag.user.UserName</a> :: Profil</h2>
+            <div class="line2" style="width: 90%"></div>
+
+
+                  <section class="red photoList">
+                    <div class="top"></div>
+                    <div class="content">
+                        <div class="image">
+                            <a href="@Url.Action("Details", "Photo", new {id = ViewBag.photo.PhotoID })" class="info"></a>
+                            <a href="@Url.Content(ViewBag.photo.FilePath)" class="zoom list1"></a>
+                            
+                            <img src="@Url.Content(ViewBag.photo.FilePath100width)" alt="@Url.Content(ViewBag.photo.FileName)" />
+                            
+                        </div>
+                        
+                        <div class="imageInfo" style="margin-top: 0">
+                            <span class="left">Imie:</span>
+                            <span class="right">@Model.FirstName</span>
+                            <br />
+                            <span class="left">Nazwisko:</span>
+                            <span class="right">@Model.LastName</span>
+                            <br />
+                            <span class="left">Nick:</span>
+                            <span class="right">@ViewBag.user.UserName</span>
+                            <br />
+                            <span class="left">E-mail:</span>
+                            <span class="right">@ViewBag.user.Email</span>
+                         
+                        </div>
+                        <div>
+                            <a href="@Url.Action("List", "Photo", new {username = ViewBag.user.UserName })" class="button" style="margin: 5px 0 0 30px;">Pokaż zdjęcia</a>
+                            <br />
+                            <a href="@Url.Action("addFrend", "Friends", new { username = ViewBag.user.UserName })" class="button" style="margin: 5px 0 0 14px">Dodaj do znajomych</a>
+                        </div>
+                    </div>
+                    <div class="bot"></div>
+
+
+                <div class="clearer"></div>
+            </section>
+               <div class="clearer"></div>
+        </div>
+        <div class="bot"></div>
+    </section>
+</div>
+<section class="shadowA newestPhotos">
+    <div class="top"></div>
+    <div class="bg">
+        <h2>Nowe zdjęcia</h2>
+        <img src="@Url.Content("~/Content/img/hrD.png")" class="hrD" alt="" />
+
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    PUser x <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
+        <div class="user">
+            <div class="top"></div>
+            <div class="bg">
+                <a href="#">
+                    Przykładowy użytkownik <br />
+                    <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
+                </a>
+            </div>
+            <div class="bot"></div>
+        </div>
     </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Zmień dane osobiste", "EditData")
-</p>
+     <div class="bot"></div>
+</section>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#editLink').click(function () {
+            $('#descriptionFormContainer').show();
+            $('#description').hide();
+            return false;
+        })
+        $('#descriptionForm').submit(function () {
+
+            $.ajax({
+                type: 'POST', url: this.action, data: $(this).serialize(), success: function (response) {
+                    //$('#ContactForm').find('.form_result').html(response);
+                    if (response.status == 'ok') {
+                        $('#descrptionContainer').html(response.description);
+                        $('#descriptionForm textarea').html(response.description);
+                        $('#descriptionFormContainer').hide();
+                        $('#description').show();
+                    }
+                }
+            })
+            return false;
+        });
+
+        $.fn.rating.options = { //$.extend($.fn.rating, { options: {
+            cancel: 'Wycofaj swój głos',   // advisory title for the 'cancel' link
+            cancelValue: '0',           // value to submit when user click the 'cancel' link
+            split: 0,                  // split the star into how many parts?
+
+            // Width of star image in case the plugin can't work it out. This can happen if
+            // the jQuery.dimensions plugin is not available OR the image is hidden at installation
+            starWidth: 16,
+
+            //NB.: These don't need to be pre-defined (can be undefined/null) so let's save some code!
+            //half:     false,         // just a shortcut to control.split = 2
+            //required: false,         // disables the 'cancel' button so user can only select one of the specified values
+            //readOnly: false,         // disable rating plugin interaction/ values cannot be changed
+            //focus:    function(){},  // executed when stars are focused
+            //blur:     function(){},  // executed when stars are focused
+            callback: function () {
+                $.ajax({
+                    type: 'POST', url: $('#voteForm').action, data: $('#voteForm').serialize(), success: function (response) {
+                        alert(response);
+                        //$('#ContactForm').find('.form_result').html(response);
+                        //if (response.status == 'ok') {
+                        //   $('#description').html(response.description);
+                        //    $('#descriptionForm').hide();
+                        //}
+                    }
+                })
+                return false;
+            }  // executed when a star is clicked
+        }; //} });
+
+    })
+
+</script>

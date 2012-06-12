@@ -96,8 +96,14 @@ namespace Photolife.Controllers
             }
             return RedirectToAction("Index");
 
+        }
 
-            return View();
+        public RedirectResult addFrend(string username)
+        {
+            AddingFriend f = new AddingFriend();
+            f.UserFriend = username;
+            Create(f);
+            return new RedirectResult(Url.Action("UserData", "Account", new {user = username } ));
         }
 
         public ActionResult Accept(string name)

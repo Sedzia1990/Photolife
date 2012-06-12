@@ -41,7 +41,16 @@ namespace Photolife.Controllers
         public ViewResult Details(int id)
         {
             Photo photo = db.Photos.Find(id);
+
             MembershipUser user = Membership.GetUser(photo.MembershipUserID);
+            ViewBag.admin = false;
+            if (user == Membership.GetUser())
+                ViewBag.admin = true;
+
+            Photo nextPhoto = db.Photos.Where(n => n.PhotoID > photo.PhotoID && n.MembershipUserID == photo.MembershipUserID).OrderBy(n => n.PhotoID).FirstOrDefault();
+            Photo prevPhoto = db.Photos.Where(n => n.PhotoID < photo.PhotoID && n.MembershipUserID == photo.MembershipUserID).OrderByDescending(n => n.PhotoID).FirstOrDefault();
+            ViewBag.nextPhoto = nextPhoto;
+            ViewBag.prevPhoto = prevPhoto;
             ViewBag.user = user;
             return View(photo);
         }
@@ -149,17 +158,28 @@ namespace Photolife.Controllers
         public JsonResult EditDescription(int id, String description)
         {
             Photo photo = db.Photos.Find(id);
-            photo.description = description;
-            db.Entry(photo).State = EntityState.Modified;
-            db.SaveChanges();
             JsonResult result = new JsonResult();
+            if (photo.MembershipUserID == (Guid) Membership.GetUser().ProviderUserKey)
+            {
+
+         
+                photo.description = description;
+                db.Entry(photo).State = EntityState.Modified;
+                db.SaveChanges();
+                
+                result.Data = new
+                {
+                    status = "ok",
+                    description = description
+                };
+                return result;
+            }
             result.Data = new
             {
-                status = "ok",
+                status = "no_access",
                 description = description
             };
             return result;
-
             //return View(photo);
         }
 

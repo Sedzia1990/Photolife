@@ -1,19 +1,37 @@
 ﻿@if(Request.IsAuthenticated) {
-    <text>Witaj <strong>@Html.ActionLink(User.Identity.Name, "Index", "Account")</strong>!
-    [ @Html.ActionLink("Wyloguj!", "LogOff", "Account") ]</text>
+    
+    <text>
+       
+            Witaj <strong>@Html.ActionLink(User.Identity.Name, "Index", "Account")</strong>!
+            [ @Html.ActionLink("Wyloguj!", "LogOff", "Account") ]
+       
+    </text>
 }
 else
 {
-    <a href="@Url.Action("Facebook", "Account", null)">
-        <img src='../../Content/themes/base/images/ui-icons_Facebook.png' />
-    </a>
+    <div>
+        
+
+         <form method="post" action="@Html.Action("LogOn", "Account")" style="margin: 8px 0 0 30px; float: left;">
+                <input type="text" placeholder="Login" name="EmailOrLogin" /> <br />
+                <input type="password" placeholder="Hasło" name="Password" /> <input type="submit" value="Zaloguj" style="margin-top: 1px" />
+                <br />
+                <a href="#" style="font-size: 10px; display: block; margin-top: 1px">Niepamiętam hasła</a>
+        </form>
+        <div style="float: left; margin: 28px 0 0 15px;">
+              <a href="@Url.Action("Facebook", "Account", null)">
+                <img src='../../Content/themes/base/images/ui-icons_Facebook.png' />
+            </a>
+        </div>
+    </div>
+  
 
 
    
   // @:[@Html.ActionLink("Połącz Z Facebookiem", "Facebook", "Account")]
    
                                                        
-   @:[@Html.ActionLink("Zaloguj!", "LogOn", "Account")]
+   //@:[@Html.ActionLink("Zaloguj!", "LogOn", "Account")]
     
 
    

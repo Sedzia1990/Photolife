@@ -14,7 +14,7 @@
         <div class="user">
             <div class="top"></div>
             <div class="bg">
-                <a href="@Url.Action("Details", "Photo")>
+                <a href="@Url.Action("Details", "Photo")">
                     Przykładowy użytkownik <br />
                     <img src="@Url.Content("~/Content/img/exampleAvatar.png")" alt="Przykładowy użytkownik" />
                 </a>
@@ -83,15 +83,17 @@
                     <div class="content">
                         <div class="image">
                             <a href="@Url.Action("Details", "Photo", new {id = item.PhotoID })" class="info"></a>
-                            <a href="#" class="zoom"></a>
-                            <img src="@Url.Content(item.FilePath100width)" alt="Zdjęcie" />
+                            <a href="@Url.Content(item.FilePath)" class="zoom list1"></a>
+                            
+                            <img src="@Url.Content(item.FilePath100width)" alt="@Url.Content(item.FileName)" />
+               
                         </div>
                         <div class="imageInfo">
                             <span class="left">Dodane:</span>
                             <span class="right">4 dni temu</span>
                             <br />
                             <span class="left">Ocena:</span>
-                            <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
+                            <span class="right">5.32 <small>/ 10 (32 głosy)</small></span>
                             <br />
                             <span class="left">Komentarze:</span>
                             <span class="right">22</span>
@@ -103,55 +105,6 @@
                     <div class="bot"></div>
                 </section>
              }
-            <section class="red photoList">
-                <div class="top"></div>
-                <div class="content">
-                    <div class="image">
-                        <a href="#" class="info"></a>
-                        <a href="#" class="zoom"></a>
-                        <img src="@Url.Content("~/Content/img/example/100.png")" alt="Zdjęcie" />
-                    </div>
-                    <div class="imageInfo">
-                        <span class="left">Dodane:</span>
-                        <span class="right">4 dni temu</span>
-                        <br />
-                        <span class="left">Ocena:</span>
-                        <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
-                        <br />
-                        <span class="left">Komentarze:</span>
-                        <span class="right">22</span>
-                        <br />
-                        <span class="left">Wyświetlenia:</span>
-                        <span class="right">323</span>
-                    </div>
-                </div>
-                <div class="bot"></div>
-            </section>
-
-            <section class="red photoList">
-                <div class="top"></div>
-                <div class="content">
-                    <div class="image">
-                        <a href="#" class="info"></a>
-                        <a href="#" class="zoom"></a>
-                        <img src="@Url.Content("~/Content/img/example/100.png")" alt="Zdjęcie" />
-                    </div>
-                    <div class="imageInfo">
-                        <span class="left">Dodane:</span>
-                        <span class="right">4 dni temu</span>
-                        <br />
-                        <span class="left">Ocena:</span>
-                        <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
-                        <br />
-                        <span class="left">Komentarze:</span>
-                        <span class="right">22</span>
-                        <br />
-                        <span class="left">Wyświetlenia:</span>
-                        <span class="right">323</span>
-                    </div>
-                </div>
-                <div class="bot"></div>
-            </section>
             <div class="center">
                 <a class="button" href="#">Wczytaj pozostałe</a>
             </div>

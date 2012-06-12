@@ -11,9 +11,10 @@ namespace Photolife.Models
     public class UserData
     {
         [Key]
-
-        public int avatarID { get; set;  }
         public int UserDataId { get; set; }
+
+      //  public int avatar_id { get; set;  }
+        
 
         public Guid MembershipUserID { get; set; }
 

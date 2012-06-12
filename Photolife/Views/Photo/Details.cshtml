@@ -74,33 +74,56 @@
              <div class="img_shadow photoDetails">
                 <div class="top"></div>
                 <div class="bg">
-                    <a href="#" class="zoom"></a>
-                    <a href="#" class="prev"></a>
-                    <a href="#" class="next"></a>
-                    <img src="@Url.Content(Model.FilePath450width)" class="addthis_shareable photo" alt="Zdjęcie"  />
+                <a href="@Url.Content(Model.FilePath)" class="zoom list1">  </a>
+               
+                    @if (ViewBag.prevPhoto != null)
+                    {
+                        <a href="@Url.Action("Details", "Photo", new { id = ViewBag.prevPhoto.PhotoID })" class="prev"></a>
+                    }
+                     @if (ViewBag.nextPhoto != null)
+                     {
+                         <a href="@Url.Action("Details", "Photo", new { id = ViewBag.nextPhoto.PhotoID })" class="next"></a>
+                     }
+                     
+                        <img src="@Url.Content(Model.FilePath450width)" class="addthis_shareable photo" alt="Zdjęcie"  />
+                  
+                  
                    
                 </div>
                 <div class="bot"></div>
              </div>
-            <h2>Dodał: @ViewBag.user.Email</h2>
-            <span style="font-size: 20px">
-                <b style="font-size: 25px">Opis: </b> <span id="description">@Model.description</span>
-                @if (Model.description != null && Model.description.Length != 0)
+
+            <section class="darkRed photoDesc" >
+                <div id="description" >
+                    <div id="descrptionContainer">
+                        @Model.description
+                    </div>
+                        @if (ViewBag.admin)
+                        {
+                            <span class="admin">
+                                 <a href="#" id="editLink">Edytuj opis</a>
+                            </span>
+                        }
+                </div>
+                @if (ViewBag.admin)
                 {
-                    <small><br /><a href="#" id="editLink">Edytuj opis</a></small>
+                    <div id="descriptionFormContainer" style="display: none">
+                            @using (Html.BeginForm("EditDescription", "Photo", new { id = Model.PhotoID }, FormMethod.Post, new { id = "descriptionForm" }))
+                            {
+                                <textarea name="description">@Model.description</textarea>
+                                <div class="center">
+                                    <input type="submit" value="Zapisz opis" style="margin: 10px auto 0 auto; width: 150px" />
+                                </div>
+                            }
+                    </div>
                 }
-                else
-                {
-                    <small><br /><a href="#" id="addLink">Dodaj opis</a></small>
-                }
-                @using (Html.BeginForm("EditDescription", "Photo", new { id = Model.PhotoID }, FormMethod.Post, new { style = "display: none", id = "descriptionForm" }))
-                {
-                    <textarea name="description">@Model.description</textarea>
-                    <input type="submit" value="Zapisz opis" />
-                }
-            </span>
-            <br /><br />
+                <div class="clearer"></div>
+            </section>
+
+
             
+            <br /><br />
+            <!--
             @using (Html.BeginForm("Rate", "Photo", new { id = Model.PhotoID }, FormMethod.Post, new { id = "rateForm" }))
             {
                 <div>
@@ -111,6 +134,7 @@
                     <input name="star1" type="radio" class="star" value="5"/>
                 </div>
             }
+            -->
 
 
         </div>
@@ -181,8 +205,9 @@
 
     $(document).ready(function () {
 
-        $('#editLink, #addLink').click(function () {
-            $('#descriptionForm').show();
+        $('#editLink').click(function () {
+            $('#descriptionFormContainer').show();
+            $('#description').hide();
             return false;
         })
         $('#descriptionForm').submit(function () {
@@ -191,8 +216,10 @@
                 type: 'POST', url: this.action, data: $(this).serialize(), success: function (response) {
                     //$('#ContactForm').find('.form_result').html(response);
                     if (response.status == 'ok') {
-                        $('#description').html(response.description);
-                        $('#descriptionForm').hide();
+                        $('#descrptionContainer').html(response.description);
+                        $('#descriptionForm textarea').html(response.description);
+                        $('#descriptionFormContainer').hide();
+                        $('#description').show();
                     }
                 }
             })

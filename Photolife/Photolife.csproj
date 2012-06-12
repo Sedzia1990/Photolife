@@ -102,6 +102,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.lightbox-0.5.css" />
     <Content Include="Content\jquery.toastmessage.css" />
     <Content Include="Content\themes\base\images\close.gif" />
     <Content Include="Content\themes\base\images\error.png" />
@@ -149,6 +150,8 @@
     <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.json.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.min.js" />
     <Content Include="Scripts\jquery.rating.pack.js" />
     <Content Include="Scripts\jquery.toastmessage.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />

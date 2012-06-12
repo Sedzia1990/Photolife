@@ -32,11 +32,14 @@ namespace Photolife.Controllers
             MembershipUser founduser = Membership.GetUser(user);
             if (founduser == null)
                 return RedirectToAction("Index");
-
+            ViewBag.user = founduser;
             var UserData = db.UserDatas.First(o => o.MembershipUserID == (Guid)founduser.ProviderUserKey);
+            var userImage = db.Photos.Where(p => p.MembershipUserID == (Guid) founduser.ProviderUserKey).OrderByDescending(p => p.PhotoID) .FirstOrDefault();
+            ViewBag.photo = userImage;
             ViewBag.UserDataName = founduser.UserName;
             return View(UserData);
         }
+       
 
         public ActionResult EditData()
         {
