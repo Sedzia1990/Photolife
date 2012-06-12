@@ -94,6 +94,9 @@ namespace Photolife.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
+
+
+            return View();
         }
 
         public ActionResult Accept(string name)

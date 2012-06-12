@@ -85,6 +85,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Models\PhotoVote.cs" />
+    <Compile Include="Models\SampleData.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\CustomizeAttribute.cs" />
     <Compile Include="Models\Friendship.cs" />
@@ -187,7 +188,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

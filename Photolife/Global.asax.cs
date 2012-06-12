@@ -32,7 +32,9 @@ namespace Photolife
 
         protected void Application_Start()
         {
-            MySeed(new PhotolifeEntities());
+            //MySeed(new PhotolifeEntities());
+
+            System.Data.Entity.Database.SetInitializer(new Photolife.Models.SampleData());
 
             AreaRegistration.RegisterAllAreas();
 
@@ -40,55 +42,8 @@ namespace Photolife
             RegisterRoutes(RouteTable.Routes);
         }
 
-        public void MySeed(PhotolifeEntities db)
-        {
-          /*  var users = Membership.GetAllUsers();
-            foreach (MembershipUser user in users)
-                Membership.DeleteUser(user.UserName, true);
-           * */
-            List<UserSeedData> uss = new List<UserSeedData>();
-            for (int i = 0; i < 10; ++i)
-                uss.Add(new UserSeedData { Login = "test"+i, Email = "test"+i+"@gmail.com", FirstName = "imie"+i, LastName = "nazwisko"+i });
-            bool ok = true;
-            foreach (UserSeedData us in uss)
-            {
-                us.Email = us.Email.ToLower();
-                us.Login = us.Login.ToLower();
-
-                ok = true;
-
-                if (Membership.FindUsersByEmail(us.Email).Count != 0)
-                    ok = false;
-                if (Membership.FindUsersByName(us.Login).Count != 0)
-                    ok = false;
-
-                if (ok == true)
-                {
-                    // Attempt to register the user
-                    MembershipCreateStatus createStatus;
-                    MembershipUser user = Membership.CreateUser(us.Login, "qwe123", us.Email, null, null, true, null, out createStatus);
-
-                    if (Roles.RoleExists("User") == false)
-                        Roles.CreateRole("User");
-                    if (Roles.IsUserInRole(us.Login, "User") == false)
-                        Roles.AddUserToRole(us.Login, "User");
-
-                    UserData ud = new UserData();
-                    ud.MembershipUserID = (Guid)user.ProviderUserKey;
-                    ud.FirstName = us.FirstName;
-                    ud.LastName = us.LastName;
-                    db.UserDatas.Add(ud);
-                    db.SaveChanges();
-                }
-            }
-        }
+        
     }
 
-    public class UserSeedData
-    {
-        public string Login;
-        public string Email;
-        public string FirstName;
-        public string LastName;
-    }
+    
 }
