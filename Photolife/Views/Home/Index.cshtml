@@ -78,9 +78,11 @@
                 <h2>SZUKAJ ZNAJOMYCH</h2>
                 <div class="line" style="margin-top: 2px"></div>
                 <br />
-                @using (Html.BeginForm("Index", "Friends", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                @using (Html.BeginForm("Search", "Account"))
+                {
                     @Html.ValidationSummary(true)
-                    <input type="text" placeholder="Szukaj znajomych" />
+                    <!--<input type="text" placeholder="Szukaj znajomych" />-->
+                    @Html.TextBox("tofind", "Nazwa użytkownika");
                 
                     <input type="submit" value="Szukaj" style="margin-left: 10px" />
                 }

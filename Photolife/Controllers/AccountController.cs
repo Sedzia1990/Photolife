@@ -38,6 +38,30 @@ namespace Photolife.Controllers
             return View(UserData);
         }
 
+        [HttpPost]
+        public ActionResult Search(string tofind)
+        {
+            var users = Membership.GetAllUsers();
+            List<FoundUser> foundusers = new List<FoundUser>();
+
+            FoundUser fu;
+            foreach (MembershipUser user in users)
+            {
+                UserData ud = db.UserDatas.First(o=>o.MembershipUserID == (Guid)user.ProviderUserKey);
+                if (user.UserName.Contains(tofind) ||
+                    ud.FirstName.Contains(tofind) ||
+                    ud.LastName.Contains(tofind))
+                {
+                    fu = new FoundUser();
+                    fu.Login = user.UserName;
+                    fu.FirstName = ud.FirstName;
+                    fu.LastName = ud.LastName;
+                    foundusers.Add(fu);
+                }
+            }
+            return View(foundusers);
+        }
+
         public ActionResult EditData()
         {
             Guid userid = (Guid)Membership.GetUser().ProviderUserKey;

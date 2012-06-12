@@ -42,6 +42,9 @@ namespace Photolife
 
         public void MySeed(PhotolifeEntities db)
         {
+            var users = Membership.GetAllUsers();
+            foreach (MembershipUser user in users)
+                Membership.DeleteUser(user.UserName, true);
             List<UserSeedData> uss = new List<UserSeedData>();
             for (int i = 0; i < 10; ++i)
                 uss.Add(new UserSeedData { Login = "test"+i, Email = "test"+i+"@gmail.com", FirstName = "imie"+i, LastName = "nazwisko"+i });

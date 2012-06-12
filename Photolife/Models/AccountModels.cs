@@ -86,5 +86,10 @@ namespace Photolife.Models
         [DataType(DataType.EmailAddress, ErrorMessage = "Ciąg musi mieć postać adresu e-mail.")]
         public string Email { get; set; }
     }
-    
+    public class FoundUser
+    {
+        public string Login { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
 }
