@@ -200,9 +200,8 @@ namespace Photolife.Controllers
                             ud.FirstName = "";
                         if ((ud.LastName = me.last_name) == null)
                             ud.LastName = "";
-                        db.UserDatas.Add(ud);
-                        db.SaveChanges();
-                        db.SaveChanges();
+                     
+                        
 
                         if(Roles.RoleExists("User") == true
                             && Roles.IsUserInRole(newuser.UserName, "User") == false)
@@ -214,7 +213,14 @@ namespace Photolife.Controllers
                         var photo50 = new Photo();
                         photo50.prefix = localPath50;
                         photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                      //  photo50.MembershipUser = newuser;
+                        db.Photos.Add(photo50);
+                        db.SaveChanges();
+
+                        ud.avatarID = photo50.PhotoID;
+
+                       
+
+                        //  photo50.MembershipUser = newuser;
                         entity50.Photos.Add(photo50);
                         // entity50.SaveChanges();
                         // photo50.SaveChanges();
@@ -228,6 +234,9 @@ namespace Photolife.Controllers
                         entitybig.Photos.Add(photobig);
                         // entitybig.SaveChanges();
                         // photobig.SaveChanges();
+
+                        db.UserDatas.Add(ud);
+                        db.SaveChanges();
                         
                         if(Roles.RoleExists("User") == true
                             && Roles.IsUserInRole(newuser.UserName, "User") == false)
