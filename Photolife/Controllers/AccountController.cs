@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,6 +24,17 @@ namespace Photolife.Controllers
         {
             Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
             var UserData = db.UserDatas.First(o => o.MembershipUserID == userid);
+            return View(UserData);
+        }
+
+        public ActionResult UserData(string user)
+        {
+            MembershipUser founduser = Membership.GetUser(user);
+            if (founduser == null)
+                return RedirectToAction("Index");
+
+            var UserData = db.UserDatas.First(o => o.MembershipUserID == (Guid)founduser.ProviderUserKey);
+            ViewBag.UserDataName = founduser.UserName;
             return View(UserData);
         }
 
@@ -200,12 +211,14 @@ namespace Photolife.Controllers
                             ud.FirstName = "";
                         if ((ud.LastName = me.last_name) == null)
                             ud.LastName = "";
-                     
-                        
+                        db.UserDatas.Add(ud);
+                        db.SaveChanges();
 
-                        if(Roles.RoleExists("User") == true
-                            && Roles.IsUserInRole(newuser.UserName, "User") == false)
+                        if (Roles.RoleExists("User") == false)
+                            Roles.CreateRole("User");
+                        if(Roles.IsUserInRole(newuser.UserName, "User") == false)
                             Roles.AddUserToRole(model.Login, "User");
+
 
                         // powiązanie fot z userem
                         //50
@@ -213,14 +226,7 @@ namespace Photolife.Controllers
                         var photo50 = new Photo();
                         photo50.prefix = localPath50;
                         photo50.MembershipUserID = (Guid)newuser.ProviderUserKey;
-                        db.Photos.Add(photo50);
-                        db.SaveChanges();
-
-                        ud.avatarID = photo50.PhotoID;
-
-                       
-
-                        //  photo50.MembershipUser = newuser;
+                      //  photo50.MembershipUser = newuser;
                         entity50.Photos.Add(photo50);
                         // entity50.SaveChanges();
                         // photo50.SaveChanges();
@@ -234,13 +240,6 @@ namespace Photolife.Controllers
                         entitybig.Photos.Add(photobig);
                         // entitybig.SaveChanges();
                         // photobig.SaveChanges();
-
-                        db.UserDatas.Add(ud);
-                        db.SaveChanges();
-                        
-                        if(Roles.RoleExists("User") == true
-                            && Roles.IsUserInRole(newuser.UserName, "User") == false)
-                            Roles.AddUserToRole(model.Login, "User");
 
                         if (createStatus == MembershipCreateStatus.Success)
                         {
@@ -345,7 +344,11 @@ namespace Photolife.Controllers
                     // Attempt to register the user
                     MembershipCreateStatus createStatus;
                     MembershipUser user = Membership.CreateUser(model.Login, model.Password, model.Email, null, null, true, null, out createStatus);
-                    Roles.AddUserToRole(model.Login, "User");
+
+                    if (Roles.RoleExists("User") == false)
+                        Roles.CreateRole("User");
+                    if (Roles.IsUserInRole(model.Login, "User") == false)
+                        Roles.AddUserToRole(model.Login, "User");
 
                     UserData ud = new UserData();
                     ud.MembershipUserID = (Guid)user.ProviderUserKey;
@@ -354,7 +357,6 @@ namespace Photolife.Controllers
                     db.UserDatas.Add(ud);
                     db.SaveChanges();
                     
-
 
                     if (createStatus == MembershipCreateStatus.Success)
                     {
@@ -489,13 +491,11 @@ namespace Photolife.Controllers
             return View();
         }
 
-        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ResetPassword()
         {
             return View();
         }
 
-        [CustomAuthorize(Roles = "Administrator, User")]
         [HttpPost]
         public ActionResult ResetPassword(ResetPasswordModel model)
         {
@@ -546,7 +546,6 @@ namespace Photolife.Controllers
             return View();
         }
 
-        [CustomAuthorize(Roles = "Administrator, User")]
         public ActionResult ResetPasswordSuccess()
         {
             return View();

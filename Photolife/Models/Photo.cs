@@ -27,6 +27,14 @@ namespace Photolife.Models
                 return prefix + ".jpg";
             }
         }
+        [Display(AutoGenerateField = false)]
+        public string FilePath
+        {
+            get
+            {
+                return Path.Combine("~/Content/UserImages", FileName);
+            }
+        }
 
         [Display(AutoGenerateField = false)]
         public string FileName800
@@ -34,6 +42,15 @@ namespace Photolife.Models
             get
             {
                 return prefix + "_800.jpg";
+            }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public string FilePath800
+        {
+            get
+            {
+                return Path.Combine("~/Content/UserImages", FileName800);
             }
         }
 
@@ -47,14 +64,7 @@ namespace Photolife.Models
             }
         }
 
-        [Display(AutoGenerateField = false)]
-        public string FilePath
-        {
-            get
-            {
-                return Path.Combine("~/Content/UserImages", FileName);
-            }
-        }
+       
 
         [Display(AutoGenerateField = false)]
         public string FilePath200
@@ -65,14 +75,29 @@ namespace Photolife.Models
             }
         }
 
+
         [Display(AutoGenerateField = false)]
-        public string FilePath800
+        public string FileName450width
         {
             get
             {
-                return Path.Combine("~/Content/UserImages", FileName800);
+
+                return prefix + "_450width.jpg";
             }
         }
+
+
+
+        [Display(AutoGenerateField = false)]
+        public string FilePath450width
+        {
+            get
+            {
+                return Path.Combine("~/Content/UserImages", FileName450width);
+            }
+        }
+
+  
 
     }
 }
