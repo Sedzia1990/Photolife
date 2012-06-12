@@ -10,7 +10,7 @@
     <div class="bg">
         <h2>Ostatnio aktywni</h2>
         <img src="@Url.Content("~/Content/img/hrD.png")" class="hrD" alt="" />
-
+        
         <div class="user">
             <div class="top"></div>
             <div class="bg">
@@ -75,31 +75,34 @@
              <h2 class="nav"><a href="#">@ViewBag.user.UserName</a> :: Zdjęcia</h2>
              <div class="line2" style="width: 90%"></div>
 
-            <section class="red photoList">
-                <div class="top"></div>
-                <div class="content">
-                    <div class="image">
-                        <a href="#" class="info"></a>
-                        <a href="#" class="zoom"></a>
-                        <img src="@Url.Content("~/Content/img/example/100.png")" alt="Zdjęcie" />
+
+             @foreach (var item in Model)
+             {
+                <section class="red photoList">
+                    <div class="top"></div>
+                    <div class="content">
+                        <div class="image">
+                            <a href="@Url.Action("Details", "Photo", new {id = item.PhotoID })" class="info"></a>
+                            <a href="#" class="zoom"></a>
+                            <img src="@Url.Content(item.FilePath100width)" alt="Zdjęcie" />
+                        </div>
+                        <div class="imageInfo">
+                            <span class="left">Dodane:</span>
+                            <span class="right">4 dni temu</span>
+                            <br />
+                            <span class="left">Ocena:</span>
+                            <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
+                            <br />
+                            <span class="left">Komentarze:</span>
+                            <span class="right">22</span>
+                            <br />
+                            <span class="left">Wyświetlenia:</span>
+                            <span class="right">323</span>
+                        </div>
                     </div>
-                    <div class="imageInfo">
-                        <span class="left">Dodane:</span>
-                        <span class="right">4 dni temu</span>
-                        <br />
-                        <span class="left">Ocena:</span>
-                        <span class="right">5.32 <small>/ 10</small> (32 głosy)</span>
-                        <br />
-                        <span class="left">Komentarze:</span>
-                        <span class="right">22</span>
-                        <br />
-                        <span class="left">Wyświetlenia:</span>
-                        <span class="right">323</span>
-                    </div>
-                </div>
-                <div class="bot"></div>
-            </section>
-       
+                    <div class="bot"></div>
+                </section>
+             }
             <section class="red photoList">
                 <div class="top"></div>
                 <div class="content">

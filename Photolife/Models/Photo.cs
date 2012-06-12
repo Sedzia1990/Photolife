@@ -75,6 +75,24 @@ namespace Photolife.Models
             }
         }
 
+        [Display(AutoGenerateField = false)]
+        public string FileName100width
+        {
+            get
+            {
+
+                return prefix + "_100width.jpg";
+            }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public string FilePath100width
+        {
+            get
+            {
+                return Path.Combine("~/Content/UserImages", FileName100width);
+            }
+        }
 
         [Display(AutoGenerateField = false)]
         public string FileName450width

@@ -42,41 +42,45 @@ namespace Photolife
 
         public void MySeed(PhotolifeEntities db)
         {
+            var users = Membership.GetAllUsers();
+            foreach (MembershipUser user in users)
+                Membership.DeleteUser(user.UserName);
+
             List<UserSeedData> uss = new List<UserSeedData>();
             for (int i = 0; i < 10; ++i)
                 uss.Add(new UserSeedData { Login = "test"+i, Email = "test"+i+"@gmail.com", FirstName = "imie"+i, LastName = "nazwisko"+i });
-            bool ok = true;
             foreach (UserSeedData us in uss)
             {
                 us.Email = us.Email.ToLower();
                 us.Login = us.Login.ToLower();
 
-                ok = true;
 
-                if (Membership.FindUsersByEmail(us.Email).Count != 0)
-                    ok = false;
-                if (Membership.FindUsersByName(us.Login).Count != 0)
-                    ok = false;
+                // Attempt to register the user
+                MembershipCreateStatus createStatus;
+                MembershipUser user = Membership.CreateUser(us.Login, "qwe123", us.Email, null, null, true, null, out createStatus);
 
-                if (ok == true)
+                if (Roles.RoleExists("User") == false)
+                    Roles.CreateRole("User");
+                if (Roles.IsUserInRole(us.Login, "User") == false)
+                    Roles.AddUserToRole(us.Login, "User");
+
+                UserData ud = new UserData();
+                ud.MembershipUserID = (Guid)user.ProviderUserKey;
+                ud.FirstName = us.FirstName;
+                ud.LastName = us.LastName;
+                db.UserDatas.Add(ud);
+                db.SaveChanges();
+
+                for (int j = 0; j < 50; j++)
                 {
-                    // Attempt to register the user
-                    MembershipCreateStatus createStatus;
-                    MembershipUser user = Membership.CreateUser(us.Login, "qwe123", us.Email, null, null, true, null, out createStatus);
-
-                    if (Roles.RoleExists("User") == false)
-                        Roles.CreateRole("User");
-                    if (Roles.IsUserInRole(us.Login, "User") == false)
-                        Roles.AddUserToRole(us.Login, "User");
-
-                    UserData ud = new UserData();
-                    ud.MembershipUserID = (Guid)user.ProviderUserKey;
-                    ud.FirstName = us.FirstName;
-                    ud.LastName = us.LastName;
-                    db.UserDatas.Add(ud);
+                    Photo photo = new Photo();
+                    photo.prefix = "example";
+                    photo.MembershipUserID = (Guid) user.ProviderUserKey;
+                    db.Photos.Add(photo);
                     db.SaveChanges();
                 }
             }
+
         }
     }
 
