@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
+
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/stars.css")" rel="stylesheet" type="text/css" />
 
@@ -22,7 +23,6 @@
         var addthis_config = {     
             services_overlay:'facebook,twitter,email,print,more'
         }
-       
     </script>
     <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fc8c3cd2e735df6"></script>  
     <script src="@Url.Content("~/Scripts/jquery.toastmessage.js")" type="text/javascript"></script>
@@ -43,7 +43,6 @@
                    console.log("toast is closed ...");
                }
            });
-
        }
        function showNoticeToast() {
            $().toastmessage('showNoticeToast', "Masz nową wiadomość");

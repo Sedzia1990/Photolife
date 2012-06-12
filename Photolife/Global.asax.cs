@@ -76,7 +76,7 @@ namespace Photolife
                     ud.MembershipUserID = (Guid)user.ProviderUserKey;
                     ud.FirstName = us.FirstName;
                     ud.LastName = us.LastName;
-                    db.UserDatas.Add(ud);
+                   // db.UserDatas.Add(ud);
                     db.SaveChanges();
                 }
             }
