@@ -55,7 +55,6 @@ namespace Photolife.Controllers
             ViewBag.UrInvites = urinvites;
             return View();
         }
-
         
         //
         // GET: /Friends/Create
