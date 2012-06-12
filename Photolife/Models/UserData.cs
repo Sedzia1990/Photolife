@@ -12,6 +12,7 @@ namespace Photolife.Models
     {
         [Key]
 
+        public int avatarID { get; set;  }
         public int UserDataId { get; set; }
 
         public Guid MembershipUserID { get; set; }

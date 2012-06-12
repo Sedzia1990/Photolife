@@ -215,7 +215,7 @@ div.user div.bg a:hover img  {
     opacity: 1;
 }
 section.banner {
-    text-align: center;
+    text-align: left;
     width: 100%;
     
 }
@@ -467,87 +467,46 @@ section.photoList div.imageInfo span.right
     width: 100%;   
     
 }
-
-.img_shadow 
-{
-    width: 468px;   
-}
-.img_shadow div.top 
-{
-    height: 9px;
-    background: url('img/img_shadow_top.png');
-    width: 100%;
+.clear {
+	clear:both
 }
 
-.img_shadow div.bot 
-{
-    height: 9px;
-    background: url('img/img_shadow_bot.png');
-    width: 100%;
+#gallery {
+	position:relative;
+	height:360px
+	
 }
+	#gallery a {
+		float:left;
+		position:absolute;
+	}
+	
+	#gallery a img {
+		border:none;
+		width: 510;
+		
+	}
+	
+	#gallery a.show {
+		z-index:500
+	}
 
-.img_shadow div.bg 
-{
-    background: url('img/img_shadow_bg.png');
-    width: 100%;
-    line-height: 100%;
-    position: relative;
-}
-.img_shadow div.bg img.photo
-{
-    margin-left: 9px;
-    display: block;
-}
-.img_shadow div.bg a.zoom 
-{
-    vertical-align: middle;
-    background: url('img/loupe2.png');
-    height: 126px;
-    width: 124px;
-    position: absolute;
-    left: 172px;
-    top: 35%;
-}
+	#gallery .caption {
+		z-index:600; 
+		background-color:#000; 
+		color:#ffffff; 
+		height:50px; 
+		width:100%; 
+		position:absolute;
+		bottom:0;
+	}
 
-.img_shadow div.bg a.next 
-{
-    vertical-align: middle;
-    background: url('img/photo_next.png');
-    height: 102px;
-    width: 96px;
-    position: absolute;
-    right: -50px;
-    top: 30%;
-}
-.img_shadow div.bg a.prev 
-{
-    vertical-align: middle;
-    background: url('img/photo_prev.png');
-    height: 102px;
-    width: 96px;
-    position: absolute;
-    left: -50px;
-    top: 30%;
-}
-
-
-.img_shadow div.bg a.zoom, .img_shadow div.bg a.prev , .img_shadow div.bg a.next 
-{
-    opacity: 0.6;
-    visibility: hidden;
-} 
-.img_shadow div.bg:hover a.zoom, .img_shadow div.bg:hover a.prev , .img_shadow div.bg:hover a.next 
-{
-    visibility: visible;
-}
-.img_shadow div.bg a.zoom:hover, .img_shadow div.bg a.prev:hover , .img_shadow div.bg a.next:hover
-{
-    visibility: visible;
-    opacity: 0.9;
-}
-
-
-.photoDetails
-{
-    margin: 0 auto;   
-}
+	#gallery .caption .content {
+		margin:5px
+	}
+	
+	#gallery .caption .content h3 {
+		margin:0;
+		padding:0;
+		color:#1DCCEF;
+	}
